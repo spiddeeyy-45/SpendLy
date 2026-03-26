@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bg_dark">#0B0713</color>
+    <color name="nav_accent_blue">#5B6EF5</color>
+    <color name="nav_accent_purple">#8B5CF6</color>
+    <color name="nav_inactive">#4D5566</color>
+    <color name="surface_dark">#12101F</color>
+    <color name="glow_orb_top">#3D1A6E</color>
+    <color name="glow_orb_bottom">#1E0A40</color>
+</resources>

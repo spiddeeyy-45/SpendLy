@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:context=".MainActivity">
+
+        <!-- Glow orb TOP-LEFT -->
+        <View
+            android:id="@+id/glowOrbTop"
+            android:layout_width="360dp"
+            android:layout_height="360dp"
+            android:background="@drawable/bg_glow_circle"
+            android:alpha="0.30"
+            android:layout_marginTop="-120dp"
+            android:layout_marginStart="-90dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Glow orb BOTTOM-RIGHT -->
+        <View
+            android:id="@+id/glowOrbBottom"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:background="@drawable/bg_glow_circle"
+            android:alpha="0.20"
+            android:layout_marginBottom="-60dp"
+            android:layout_marginEnd="-80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- ===================== FRAGMENT CONTAINER ===================== -->
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/customBottomBar"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_bottom_nav"
+            android:elevation="8dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- HOME -->
+            <LinearLayout
+                android:id="@+id/navHome"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/navVehicle"
+                app:layout_constraintWidth_percent="0.20">
+
+                <FrameLayout
+                    android:layout_width="52dp"
+                    android:layout_height="28dp">
+
+                    <View
+                        android:id="@+id/pillHome"
+                        android:layout_width="52dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/bg_nav_pill"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:id="@+id/iconHome"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_home"
+                        app:tint="@color/bottom_nav_selector" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/textHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Home"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.02"
+                    android:textColor="@color/bottom_nav_selector" />
+            </LinearLayout>
+
+            <!-- VEHICLE -->
+            <LinearLayout
+                android:id="@+id/navVehicle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintStart_toEndOf="@id/navHome"
+                app:layout_constraintEnd_toStartOf="@id/navAdd"
+                app:layout_constraintWidth_percent="0.20">
+
+                <FrameLayout
+                    android:layout_width="52dp"
+                    android:layout_height="28dp">
+
+                    <View
+                        android:id="@+id/pillVehicle"
+                        android:layout_width="52dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/bg_nav_pill"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iconVehicle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_vehicle"
+                        app:tint="@color/bottom_nav_selector" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/textVehicle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Vehicle"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.02"
+                    android:textColor="@color/bottom_nav_selector" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navAdd"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintStart_toEndOf="@id/navVehicle"
+                app:layout_constraintEnd_toStartOf="@id/navTrip"
+                app:layout_constraintWidth_percent="0.20">
+
+                <FrameLayout
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="-28dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/bg_fab_add"
+                    android:translationZ="16dp"
+                    android:elevation="16dp"
+                    android:outlineProvider="background">
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/textAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.02"
+                    android:textColor="@color/nav_accent_purple" />
+            </LinearLayout>
+
+            <!-- TRIPS -->
+            <LinearLayout
+                android:id="@+id/navTrip"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintStart_toEndOf="@id/navAdd"
+                app:layout_constraintEnd_toStartOf="@id/navProfile"
+                app:layout_constraintWidth_percent="0.20">
+
+                <FrameLayout
+                    android:layout_width="52dp"
+                    android:layout_height="28dp">
+
+                    <View
+                        android:id="@+id/pillTrip"
+                        android:layout_width="52dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/bg_nav_pill"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iconTrip"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_trip"
+                        app:tint="@color/bottom_nav_selector" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/textTrip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Trips"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.02"
+                    android:textColor="@color/bottom_nav_selector" />
+            </LinearLayout>
+
+            <!-- PROFILE -->
+            <LinearLayout
+                android:id="@+id/navProfile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintStart_toEndOf="@id/navTrip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.20">
+
+                <FrameLayout
+                    android:layout_width="52dp"
+                    android:layout_height="28dp">
+
+                    <View
+                        android:id="@+id/pillProfile"
+                        android:layout_width="52dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/bg_nav_pill"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iconProfile"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_profile"
+                        app:tint="@color/bottom_nav_selector" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/textProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Profile"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.02"
+                    android:textColor="@color/bottom_nav_selector" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
