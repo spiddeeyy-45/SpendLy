@@ -9,4 +9,26 @@
     <color name="surface_dark">#12101F</color>
     <color name="glow_orb_top">#3D1A6E</color>
     <color name="glow_orb_bottom">#1E0A40</color>
+    <color name="bg_main">#0A0C10</color>
+    <color name="surface_glass">#1A1F35</color>
+    <color name="surface_item">#181C24</color>
+    <color name="glass_border">#1AFFFFFF</color>
+    <color name="glass_border_accent">#335B6EF5</color>
+    <color name="ai_purple">#A5B4FC</color>
+        <color name="surface_variant">#181C24</color>
+        <color name="accent_blue">#5B6EF5</color>
+        <color name="accent_purple">#8B5CF6</color>
+        <color name="text_main">#F0F2F7</color>
+        <color name="text_muted">#6B7280</color>
+        <color name="danger">#EF4444</color>
+        <color name="success">#06D6A0</color>
+    <color name="cat_fuel">#FBBF24</color>
+    <color name="cat_vehicle">#60A5FA</color>
+    <color name="cat_trip">#34D399</color>
+    <color name="cat_subs">#A78BFA</color>
+    <color name="cat_shop">#F472B6</color>
+    <color name="cat_grocery">#86EFAC</color>
+    <color name="cat_other">#94A3B8</color>
+    <color name="divider">#33FFFFFF</color>
+
 </resources>
