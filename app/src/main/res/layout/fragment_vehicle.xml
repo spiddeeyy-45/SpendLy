@@ -1,13 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".VehicleFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Vehicle" />
+        tools:context=".VehicleFragment">
 
-</FrameLayout>
+        <ScrollView
+            android:id="@+id/scrollVehicle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/rootContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="100dp">
+
+                <!-- HEADER -->
+                <LinearLayout
+                    android:id="@+id/headerContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:id="@+id/tvVehicleTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="My Vehicles"
+                        android:textColor="#F0F2F7"
+                        android:textSize="22sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvVehicleSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Track and manage all vehicle expenses"
+                    android:textColor="#6B7280"
+                    android:textSize="13sp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- VEHICLE LIST -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvVehicles"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/item_vehicle_card"/>
+
+                <!-- EXPENSE SECTION -->
+                <LinearLayout
+                    android:id="@+id/layoutExpense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_surface2_round"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:id="@+id/tvAddExpense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Expense"
+                        android:textColor="#F0F2F7"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="14dp"/>
+
+                    <!-- ROW 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <include android:id="@+id/cardFuel" layout="@layout/item_expense_card"/>
+                        <include android:id="@+id/cardOil" layout="@layout/item_expense_card"/>
+                        <include android:id="@+id/cardService" layout="@layout/item_expense_card"/>
+
+                    </LinearLayout>
+
+                    <!-- ROW 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <include android:id="@+id/cardBrake" layout="@layout/item_expense_card"/>
+                        <include android:id="@+id/cardGear" layout="@layout/item_expense_card"/>
+                        <include android:id="@+id/cardAccessories" layout="@layout/item_expense_card"/>
+
+                    </LinearLayout>
+
+                    <!-- ROW 3 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <include android:id="@+id/cardTyre" layout="@layout/item_expense_card"/>
+                        <include android:id="@+id/cardInsurance" layout="@layout/item_expense_card"/>
+                        <include android:id="@+id/cardOther" layout="@layout/item_expense_card"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- STATS -->
+                <LinearLayout
+                    android:id="@+id/layoutStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_surface2_round"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:id="@+id/tvStatsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="This Month"
+                        android:textColor="#F0F2F7"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="14dp"/>
+
+                    <!-- ROW 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/cardTotalSpend"
+                            layout="@layout/item_vehicle_stat"/>
+
+                        <include
+                            android:id="@+id/cardFuelSpend"
+                            layout="@layout/item_vehicle_stat"/>
+
+                    </LinearLayout>
+
+                    <!-- ROW 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <include
+                            android:id="@+id/cardServiceSpend"
+                            layout="@layout/item_vehicle_stat"/>
+
+                        <include
+                            android:id="@+id/cardAvgSpend"
+                            layout="@layout/item_vehicle_stat"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- CHART -->
+                <LinearLayout
+                    android:id="@+id/layoutChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_surface2_round"
+                    android:padding="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvChartTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expense Breakdown"
+                        android:textColor="#F0F2F7"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="14dp"/>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChartVehicle"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
