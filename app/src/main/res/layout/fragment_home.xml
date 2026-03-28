@@ -4,8 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#07071A"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment">
+    <!-- BG ORB 1 — top-left purple -->
+    <View
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/bg_glow_orb_purp"
+        android:alpha="0.35"
+        android:layout_marginStart="-80dp"
+        android:layout_marginTop="-60dp"/>
+
+    <!-- BG ORB 2 — right blue -->
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_glow_orb_blue"
+        android:alpha="0.2"
+        android:layout_gravity="end"
+        android:layout_marginEnd="-40dp"
+        android:layout_marginTop="300dp"/>
+
+    <!-- BG ORB 3 — bottom-left -->
+    <View
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:background="@drawable/bg_glow_orb_purp"
+        android:alpha="0.22"
+        android:layout_gravity="bottom|start"
+        android:layout_marginBottom="100dp"
+        android:layout_marginStart="20dp"/>
+
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"

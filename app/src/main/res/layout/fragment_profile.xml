@@ -4,76 +4,180 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0C10"
+    android:background="#07071A"
     tools:context=".ProfileFragment">
+
+    <!-- BG ORB 1 — top-left purple -->
+    <View
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/bg_glow_orb_purp"
+        android:alpha="0.35"
+        android:layout_marginStart="-80dp"
+        android:layout_marginTop="-60dp"/>
+
+    <!-- BG ORB 2 — right blue -->
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_glow_orb_blue"
+        android:alpha="0.2"
+        android:layout_gravity="end"
+        android:layout_marginEnd="-40dp"
+        android:layout_marginTop="300dp"/>
+
+    <!-- BG ORB 3 — bottom-left -->
+    <View
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:background="@drawable/bg_glow_orb_purp"
+        android:alpha="0.22"
+        android:layout_gravity="bottom|start"
+        android:layout_marginBottom="100dp"
+        android:layout_marginStart="20dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="52dp"
+            android:paddingBottom="110dp">
 
-            <!-- ===== TITLE ===== -->
+            <!-- HEADER -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
+                android:textColor="#EEF0FF"
                 android:textSize="26sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="20dp"/>
 
-            <!-- ===== PROFILE CARD ===== -->
+            <!-- ══════════════════════════════ -->
+            <!-- PROFILE CARD -->
+            <!-- ══════════════════════════════ -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="26dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#1AFFFFFF"
-                android:layout_marginBottom="20dp">
+                app:cardBackgroundColor="@android:color/transparent">
 
-                <LinearLayout
+                <eightbitlab.com.blurview.BlurView
+                    android:id="@+id/blurProfile"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="20dp">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:text="🧑"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:gravity="center"
-                        android:textSize="32sp"
-                        android:textColor="#FFFFFF"
-                        android:background="#5B6EF5"
-                        android:layout_marginBottom="12dp"/>
+                        android:padding="28dp"
+                        android:background="@drawable/bg_glass_card">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Arbaz Shaikh"
-                        android:textColor="#FFFFFF"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        <ImageView
+                            android:id="@+id/ivProfileImage"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            android:background="@drawable/bg_avatar"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone"
+                            android:layout_marginBottom="14dp"
+                            tools:visibility="gone"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Member since 2025 · Mumbai"
-                        android:textColor="#B0B6BE"
-                        android:textSize="12sp"
-                        android:layout_marginTop="4dp"/>
+                        <TextView
+                            android:id="@+id/tvAvatar"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            android:gravity="center"
+                            android:text="🧑"
+                            android:textSize="36sp"
+                            android:background="@drawable/bg_avatar"
+                            android:visibility="visible"
+                            android:layout_marginBottom="14dp"/>
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvProfileName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#EEF0FF"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="4dp"
+                            tools:text="Arbaz Shaikh"/>
+                        <TextView
+                            android:id="@+id/tvProfileSub"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#8CB4B9DC"
+                            android:textSize="12sp"
+                            android:layout_marginBottom="16dp"
+                            tools:text="Member since 2025 · Mumbai"/>
+
+                        <!-- Badges row -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/tvBadgePlan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="#A99DFF"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:textAllCaps="true"
+                                android:letterSpacing="0.05"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:paddingTop="4dp"
+                                android:paddingBottom="4dp"
+                                android:background="@drawable/bg_badge_purple"
+                                android:layout_marginEnd="8dp"
+                                tools:text="Premium"/>
+                            <TextView
+                                android:id="@+id/tvBadgeCity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="#80B4FF"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:textAllCaps="true"
+                                android:letterSpacing="0.05"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:paddingTop="4dp"
+                                android:paddingBottom="4dp"
+                                android:background="@drawable/bg_badge_blue"
+                                tools:text="Mumbai"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </eightbitlab.com.blurview.BlurView>
+
             </androidx.cardview.widget.CardView>
 
-            <!-- ===== STATS ===== -->
+            <!-- ══════════════════════════════ -->
+            <!-- STATS 3-COLUMN ROW -->
+            <!-- ══════════════════════════════ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,290 +185,505 @@
                 android:weightSum="3"
                 android:layout_marginBottom="20dp">
 
-                <!-- CARD -->
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="100dp"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardBackgroundColor="#1AFFFFFF">
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stats_card">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:id="@+id/tvTotalTracked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#A99DFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="₹2.3L"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total tracked"
+                        android:textColor="#80B4B9DC"
+                        android:textSize="10sp"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:layout_marginTop="4dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="₹2.3L"
-                            android:textColor="#5B6EF5"
-                            android:textSize="18sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Total tracked"
-                            android:textColor="#B0B6BE"
-                            android:textSize="11sp"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- CARD -->
-                <androidx.cardview.widget.CardView
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="100dp"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardBackgroundColor="#1AFFFFFF">
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stats_card">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvSaved"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#5DE8B8"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="₹18K"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="₹18K"
-                            android:textColor="#06D6A0"
-                            android:textSize="18sp"
-                            android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Saved"
+                        android:textColor="#80B4B9DC"
+                        android:textSize="10sp"
+                        android:layout_marginTop="4dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Saved"
-                            android:textColor="#B0B6BE"
-                            android:textSize="11sp"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- CARD -->
-                <androidx.cardview.widget.CardView
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="100dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardBackgroundColor="#1AFFFFFF">
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stats_card">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvMonths"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#FBBF24"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="3"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3"
-                            android:textColor="#FBBF24"
-                            android:textSize="18sp"
-                            android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Months"
+                        android:textColor="#80B4B9DC"
+                        android:textSize="10sp"
+                        android:layout_marginTop="4dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Months"
-                            android:textColor="#B0B6BE"
-                            android:textSize="11sp"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
             </LinearLayout>
 
-            <!-- ===== VEHICLES ===== -->
+            <!-- ══════════════════════════════ -->
+            <!-- MY VEHICLES -->
+            <!-- ══════════════════════════════ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Vehicles"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:textColor="#EEF0FF"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"/>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardVehicleSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:cardBackgroundColor="#1AFFFFFF"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@android:color/transparent">
 
-                <LinearLayout
+                <eightbitlab.com.blurview.BlurView
+                    android:id="@+id/blurVehicleSection"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:text="🏍️"
-                        android:textSize="20sp"
-                        android:gravity="center"/>
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginStart="10dp">
+                        android:background="@drawable/bg_glass_card">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hero Splendor"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp"
-                            android:textStyle="bold"/>
+                        <!-- Shimmer line -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/bg_shimmer_line"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/rowVehicle1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="MH02 XX 1234 · 2022"
-                            android:textColor="#B0B6BE"
-                            android:textSize="11sp"/>
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="16dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?attr/selectableItemBackground">
+
+                            <FrameLayout
+                                android:layout_width="46dp"
+                                android:layout_height="46dp"
+                                android:background="@drawable/bg_add_vehicle_icon">
+                                <TextView
+                                    android:id="@+id/tvVehicle1Emoji"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="🏍️"
+                                    android:textSize="22sp"/>
+
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="14dp">
+
+                                <TextView
+                                    android:id="@+id/tvVehicle1Name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="#EEF0FF"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    tools:text="Hero Splendor"/>
+                                <TextView
+                                    android:id="@+id/tvVehicle1Plate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="#80B4B9DC"
+                                    android:textSize="11sp"
+                                    android:layout_marginTop="2dp"
+                                    tools:text="MH02 XX 1234 · 2022"/>
+
+                            </LinearLayout>
+                            <TextView
+                                android:id="@+id/tvVehicle1Badge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Active"
+                                android:textColor="#5DE8B8"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
+                                android:background="@drawable/bg_badge_green"
+                                android:layout_marginEnd="8dp"
+                                android:visibility="gone"
+                                tools:visibility="visible"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="›"
+                                android:textColor="#40B4B9DC"
+                                android:textSize="20sp"/>
+
+                        </LinearLayout>
+                        <View
+                            android:id="@+id/dividerVehicle"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#0DFFFFFF"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"/>
+
+                        <!-- ADD VEHICLE BUTTON -->
+                        <LinearLayout
+                            android:id="@+id/btnAddVehicle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="16dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?attr/selectableItemBackground">
+
+                            <FrameLayout
+                                android:layout_width="46dp"
+                                android:layout_height="46dp"
+                                android:background="@drawable/bg_add_vehicle_icon">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="+"
+                                    android:textColor="#A99DFF"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold"/>
+
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="14dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Add New Vehicle"
+                                    android:textColor="#A99DFF"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Car, bike, or any vehicle"
+                                    android:textColor="#60B4B9DC"
+                                    android:textSize="11sp"
+                                    android:layout_marginTop="2dp"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="›"
+                                android:textColor="#40A99DFF"
+                                android:textSize="20sp"/>
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                </LinearLayout>
+                </eightbitlab.com.blurview.BlurView>
+
             </androidx.cardview.widget.CardView>
 
-            <!-- ===== SETTINGS ===== -->
+            <!-- ══════════════════════════════ -->
+            <!-- SETTINGS -->
+            <!-- ══════════════════════════════ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Settings"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:textColor="#EEF0FF"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"/>
 
-            <!-- ITEM TEMPLATE USED BELOW -->
-
-            <!-- Edit Profile -->
-            <LinearLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="14dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@android:color/transparent">
 
-                <TextView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:text="👤"
-                    android:gravity="center"
-                    android:background="#1F2937"/>
+                <eightbitlab.com.blurview.BlurView
+                    android:id="@+id/blurSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Edit Profile"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:layout_marginStart="12dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_glass_card">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="›"
-                    android:textColor="#B0B6BE"/>
-            </LinearLayout>
+                        <!-- Shimmer line -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/bg_shimmer_line"/>
 
-            <!-- Notifications -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="14dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                        <!-- Edit Profile -->
+                        <LinearLayout
+                            android:id="@+id/rowEditProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="15dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
 
-                <TextView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:text="🔔"
-                    android:gravity="center"
-                    android:background="#1F2937"/>
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/bg_setting_default">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="👤"
+                                    android:textSize="17sp"/>
+                            </FrameLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Notifications"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:layout_marginStart="12dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Edit Profile"
+                                android:textColor="#EEF0FF"
+                                android:textSize="14sp"
+                                android:layout_marginStart="14dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="›"
-                    android:textColor="#B0B6BE"/>
-            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="›"
+                                android:textColor="#40B4B9DC"
+                                android:textSize="18sp"/>
 
-            <!-- Privacy -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="14dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                        </LinearLayout>
 
-                <TextView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:text="🔒"
-                    android:gravity="center"
-                    android:background="#1F2937"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#0DFFFFFF"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Privacy Policy"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:layout_marginStart="12dp"/>
+                        <!-- Notifications -->
+                        <LinearLayout
+                            android:id="@+id/rowNotifications"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="15dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="›"
-                    android:textColor="#B0B6BE"/>
-            </LinearLayout>
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/bg_setting_default">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="🔔"
+                                    android:textSize="17sp"/>
+                            </FrameLayout>
 
-            <!-- Logout -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="14dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Notifications"
+                                android:textColor="#EEF0FF"
+                                android:textSize="14sp"
+                                android:layout_marginStart="14dp"/>
 
-                <TextView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:text="🚪"
-                    android:gravity="center"
-                    android:background="#2A1212"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="›"
+                                android:textColor="#40B4B9DC"
+                                android:textSize="18sp"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Logout"
-                    android:textColor="#EF4444"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="12dp"/>
-            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#0DFFFFFF"/>
+
+                        <!-- Privacy -->
+                        <LinearLayout
+                            android:id="@+id/rowPrivacy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="15dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/bg_setting_default">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="🔒"
+                                    android:textSize="17sp"/>
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Privacy Policy"
+                                android:textColor="#EEF0FF"
+                                android:textSize="14sp"
+                                android:layout_marginStart="14dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="›"
+                                android:textColor="#40B4B9DC"
+                                android:textSize="18sp"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#0DFFFFFF"/>
+
+                        <!-- Logout -->
+                        <LinearLayout
+                            android:id="@+id/rowLogout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="15dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/bg_setting_logout">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="🚪"
+                                    android:textSize="17sp"/>
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Logout"
+                                android:textColor="#FF8A8A"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:layout_marginStart="14dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </eightbitlab.com.blurview.BlurView>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
