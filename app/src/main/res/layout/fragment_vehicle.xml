@@ -3,214 +3,332 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#07071A"
         tools:context=".VehicleFragment">
+        <View
+            android:id="@+id/orbTopLeft"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:background="@drawable/bg_glow_orb_purp"
+            android:alpha="0.35"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="-80dp"
+            android:layout_marginTop="-60dp"/>
+        <View
+            android:id="@+id/orbRight"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:background="@drawable/bg_glow_orb_blue"
+            android:alpha="0.2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="-40dp"
+            android:layout_marginTop="180dp"/>
+        <View
+            android:id="@+id/orbBottomLeft"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:background="@drawable/bg_glow_orb_purp"
+            android:alpha="0.22"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="180dp"/>
 
         <ScrollView
             android:id="@+id/scrollVehicle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:id="@+id/rootContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="100dp">
+                android:paddingBottom="110dp">
 
-                <!-- HEADER -->
                 <LinearLayout
-                    android:id="@+id/headerContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp"
-                    android:paddingTop="20dp">
+                    android:paddingTop="52dp"
+                    android:paddingBottom="4dp">
 
                     <TextView
                         android:id="@+id/tvVehicleTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/syne_bold"
+                        android:letterSpacing="-0.02"
                         android:text="My Vehicles"
-                        android:textColor="#F0F2F7"
-                        android:textSize="22sp"
-                        android:textStyle="bold"/>
+                        android:textColor="#EEF0FF"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvVehicleSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Track and manage all vehicle expenses"
+                        android:textColor="#80B4B9DC"
+                        android:textSize="13sp"
+                        android:layout_marginTop="3dp"/>
+
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvVehicleSubtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Track and manage all vehicle expenses"
-                    android:textColor="#6B7280"
-                    android:textSize="13sp"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
-                    android:layout_marginBottom="16dp"/>
-
-                <!-- VEHICLE LIST -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvVehicles"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp"
+                    android:paddingBottom="4dp"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
                     tools:listitem="@layout/item_vehicle_card"/>
 
-                <!-- EXPENSE SECTION -->
-                <LinearLayout
-                    android:id="@+id/layoutExpense"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardExpenseSection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_surface2_round"
-                    android:padding="18dp">
-
-                    <TextView
-                        android:id="@+id/tvAddExpense"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Add Expense"
-                        android:textColor="#F0F2F7"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="14dp"/>
-
-                    <!-- ROW 1 -->
-                    <LinearLayout
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@android:color/transparent">
+                    <eightbitlab.com.blurview.BlurView
+                        android:id="@+id/blurExpense"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        app:blurOverlayColor="#1AFFFFFF">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_glass_card"
+                            android:layout_gravity="center"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="20dp">
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@drawable/bg_shimmer_line"
+                                android:layout_marginBottom="16dp"/>
+                            <TextView
+                                android:id="@+id/tvAddExpense"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Add Expense"
+                                android:textColor="#EEF0FF"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/syne_bold"
+                                android:layout_marginBottom="16dp"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
-                        <include android:id="@+id/cardFuel" layout="@layout/item_expense_card"/>
-                        <include android:id="@+id/cardOil" layout="@layout/item_expense_card"/>
-                        <include android:id="@+id/cardService" layout="@layout/item_expense_card"/>
+                                <include
+                                    android:id="@+id/cardFuel"
+                                    layout="@layout/item_expense_fuel"/>
+                                <include
+                                    android:id="@+id/cardOil"
+                                    layout="@layout/item_expense_oil"/>
+                                <include
+                                    android:id="@+id/cardService"
+                                    layout="@layout/item_expense_service"/>
 
-                    </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10dp">
+                                <include
+                                    android:id="@+id/cardBrake"
+                                    layout="@layout/item_expense_brake"/>
+                                <include
+                                    android:id="@+id/cardGear"
+                                    layout="@layout/item_expense_gear"/>
+                                <include
+                                    android:id="@+id/cardAccessories"
+                                    layout="@layout/item_expense_access"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10dp">
+                                <include
+                                    android:id="@+id/cardTyre"
+                                    layout="@layout/item_expense_tyre"/>
+                                <include
+                                    android:id="@+id/cardInsurance"
+                                    layout="@layout/item_expense_insurance"/>
+                                <include
+                                    android:id="@+id/cardOther"
+                                    layout="@layout/item_expense_others"/>
+                            </LinearLayout>
+                        </LinearLayout>
 
-                    <!-- ROW 2 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                    </eightbitlab.com.blurview.BlurView>
 
-                        <include android:id="@+id/cardBrake" layout="@layout/item_expense_card"/>
-                        <include android:id="@+id/cardGear" layout="@layout/item_expense_card"/>
-                        <include android:id="@+id/cardAccessories" layout="@layout/item_expense_card"/>
-
-                    </LinearLayout>
-
-                    <!-- ROW 3 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
-
-                        <include android:id="@+id/cardTyre" layout="@layout/item_expense_card"/>
-                        <include android:id="@+id/cardInsurance" layout="@layout/item_expense_card"/>
-                        <include android:id="@+id/cardOther" layout="@layout/item_expense_card"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- STATS -->
-                <LinearLayout
-                    android:id="@+id/layoutStats"
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardStatsSection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="16dp"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_surface2_round"
-                    android:padding="18dp">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@android:color/transparent">
 
-                    <TextView
-                        android:id="@+id/tvStatsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="This Month"
-                        android:textColor="#F0F2F7"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="14dp"/>
-
-                    <!-- ROW 1 -->
-                    <LinearLayout
+                    <eightbitlab.com.blurview.BlurView
+                        android:id="@+id/blurStats"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        app:blurOverlayColor="#1AFFFFFF">
 
-                        <include
-                            android:id="@+id/cardTotalSpend"
-                            layout="@layout/item_vehicle_stat"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_glass_card"
+                            android:layout_gravity="center"/>
 
-                        <include
-                            android:id="@+id/cardFuelSpend"
-                            layout="@layout/item_vehicle_stat"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="20dp">
 
-                    </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@drawable/bg_shimmer_line"
+                                android:layout_marginBottom="16dp"/>
 
-                    <!-- ROW 2 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp">
+                            <TextView
+                                android:id="@+id/tvStatsTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="This Month"
+                                android:textColor="#EEF0FF"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/syne_bold"
+                                android:layout_marginBottom="14dp"/>
 
-                        <include
-                            android:id="@+id/cardServiceSpend"
-                            layout="@layout/item_vehicle_stat"/>
+                            <!-- STATS ROW 1 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
-                        <include
-                            android:id="@+id/cardAvgSpend"
-                            layout="@layout/item_vehicle_stat"/>
+                                <include
+                                    android:id="@+id/cardTotalSpend"
+                                    layout="@layout/item_vehicle_total_spend"/>
 
-                    </LinearLayout>
+                                <include
+                                    android:id="@+id/cardFuelSpend"
+                                    layout="@layout/item_stat_fuel"/>
 
-                </LinearLayout>
+                            </LinearLayout>
 
-                <!-- CHART -->
-                <LinearLayout
-                    android:id="@+id/layoutChart"
+                            <!-- STATS ROW 2 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10dp">
+
+                                <include
+                                    android:id="@+id/cardServiceSpend"
+                                    layout="@layout/item_stat_service"/>
+
+                                <include
+                                    android:id="@+id/cardAvgSpend"
+                                    layout="@layout/item_stats_avg"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </eightbitlab.com.blurview.BlurView>
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardChartSection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_surface2_round"
-                    android:padding="20dp"
-                    android:orientation="vertical">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@android:color/transparent">
 
-                    <TextView
-                        android:id="@+id/tvChartTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Expense Breakdown"
-                        android:textColor="#F0F2F7"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="14dp"/>
-
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/barChartVehicle"
+                    <eightbitlab.com.blurview.BlurView
+                        android:id="@+id/blurChart"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"/>
+                        android:layout_height="match_parent"
+                        app:blurOverlayColor="#1AFFFFFF">
 
-                </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_glass_card"
+                            android:layout_gravity="center"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="20dp">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@drawable/bg_shimmer_line"
+                                android:layout_marginBottom="16dp"/>
+
+                            <TextView
+                                android:id="@+id/tvChartTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Expense Breakdown"
+                                android:textColor="#EEF0FF"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/syne_bold"
+                                android:layout_marginBottom="14dp"/>
+
+                            <com.github.mikephil.charting.charts.BarChart
+                                android:id="@+id/barChartVehicle"
+                                android:layout_width="match_parent"
+                                android:layout_height="220dp"/>
+
+                        </LinearLayout>
+
+                    </eightbitlab.com.blurview.BlurView>
+
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
