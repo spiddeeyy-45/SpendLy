@@ -9,13 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import viewModel.Register.registerViewModel
 import Model.Register.RegisterRequest
+import android.content.Intent
 import com.example.spendly.databinding.ActivityRegisterBinding
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class Register : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var viewModel: registerViewModel
+    private var fcmToken: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,12 @@ class Register : AppCompatActivity() {
 
         setupUI()
         observeViewModel()
+        getFcmToken()
+    }
+    private fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            fcmToken = it
+        }
     }
 
     private fun setupUI() {
@@ -53,7 +62,8 @@ class Register : AppCompatActivity() {
                 location = binding.etLocation.text.toString().trim(),
                 email = binding.etEmail.text.toString().trim(),
                 phone = binding.etPhone.text.toString().trim(),
-                password = binding.etPassword.text.toString().trim()
+                password = binding.etPassword.text.toString().trim(),
+                fcmToken=fcmToken
             )
 
             viewModel.registerUser(request)
@@ -71,6 +81,10 @@ class Register : AppCompatActivity() {
                 }
                 is RegisterResultState.Success -> {
                     binding.tvRegisterError.text = "Account Created!"
+                    val intent =Intent(this,Login::class.java)
+                    startActivity(intent)
+                    finish()
+
                 }
                 is RegisterResultState.Error -> {
                     binding.tvRegisterError.visibility = View.VISIBLE

@@ -5,7 +5,8 @@ data class RegisterRequest(
     val location: String,
     val email: String,
     val phone: String,
-    val password: String
+    val password: String,
+    val fcmToken:String?
 )
 
 
