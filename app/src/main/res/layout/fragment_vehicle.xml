@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#07071A"
-        tools:context=".VehicleFragment">
+        tools:context="UI.VehicleFragment">
         <View
             android:id="@+id/orbTopLeft"
             android:layout_width="280dp"
@@ -123,11 +123,6 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="20dp">
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@drawable/bg_shimmer_line"
-                                android:layout_marginBottom="16dp"/>
                             <TextView
                                 android:id="@+id/tvAddExpense"
                                 android:layout_width="wrap_content"
@@ -218,12 +213,6 @@
                             android:orientation="vertical"
                             android:padding="20dp">
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@drawable/bg_shimmer_line"
-                                android:layout_marginBottom="16dp"/>
-
                             <TextView
                                 android:id="@+id/tvStatsTitle"
                                 android:layout_width="wrap_content"
@@ -301,12 +290,6 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="20dp">
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@drawable/bg_shimmer_line"
-                                android:layout_marginBottom="16dp"/>
 
                             <TextView
                                 android:id="@+id/tvChartTitle"

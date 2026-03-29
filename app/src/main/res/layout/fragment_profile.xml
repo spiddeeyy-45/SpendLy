@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#07071A"
-    tools:context=".ProfileFragment">
+    tools:context="UI.ProfileFragment">
 
     <!-- BG ORB 1 — top-left purple -->
     <View
@@ -118,6 +118,7 @@
                             android:textStyle="bold"
                             android:layout_marginBottom="4dp"
                             tools:text="Arbaz Shaikh"/>
+
                         <TextView
                             android:id="@+id/tvProfileSub"
                             android:layout_width="wrap_content"
@@ -133,6 +134,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:id="@+id/tvBadgePlan"
                                 android:layout_width="wrap_content"
@@ -150,6 +152,7 @@
                                 android:background="@drawable/bg_badge_purple"
                                 android:layout_marginEnd="8dp"
                                 tools:text="Premium"/>
+
                             <TextView
                                 android:id="@+id/tvBadgeCity"
                                 android:layout_width="wrap_content"
@@ -214,6 +217,7 @@
                         android:layout_marginTop="4dp"/>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="100dp"
@@ -243,6 +247,7 @@
                         android:layout_marginTop="4dp"/>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="100dp"
@@ -306,89 +311,19 @@
                         android:orientation="vertical"
                         android:background="@drawable/bg_glass_card">
 
-                        <!-- Shimmer line -->
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@drawable/bg_shimmer_line"/>
 
-                        <LinearLayout
-                            android:id="@+id/rowVehicle1"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvVehicles"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:padding="16dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground">
-
-                            <FrameLayout
-                                android:layout_width="46dp"
-                                android:layout_height="46dp"
-                                android:background="@drawable/bg_add_vehicle_icon">
-                                <TextView
-                                    android:id="@+id/tvVehicle1Emoji"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:text="🏍️"
-                                    android:textSize="22sp"/>
-
-                            </FrameLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginStart="14dp">
-
-                                <TextView
-                                    android:id="@+id/tvVehicle1Name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text=""
-                                    android:textColor="#EEF0FF"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"
-                                    tools:text="Hero Splendor"/>
-                                <TextView
-                                    android:id="@+id/tvVehicle1Plate"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text=""
-                                    android:textColor="#80B4B9DC"
-                                    android:textSize="11sp"
-                                    android:layout_marginTop="2dp"
-                                    tools:text="MH02 XX 1234 · 2022"/>
-
-                            </LinearLayout>
-                            <TextView
-                                android:id="@+id/tvVehicle1Badge"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Active"
-                                android:textColor="#5DE8B8"
-                                android:textSize="10sp"
-                                android:textStyle="bold"
-                                android:paddingStart="8dp"
-                                android:paddingEnd="8dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
-                                android:background="@drawable/bg_badge_green"
-                                android:layout_marginEnd="8dp"
-                                android:visibility="gone"
-                                tools:visibility="visible"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="›"
-                                android:textColor="#40B4B9DC"
-                                android:textSize="20sp"/>
-
-                        </LinearLayout>
+                            android:nestedScrollingEnabled="false"
+                            android:overScrollMode="never"
+                            tools:listitem="@layout/item_vehicle_add"
+                            tools:itemCount="2"/>
                         <View
                             android:id="@+id/dividerVehicle"
                             android:layout_width="match_parent"
@@ -396,8 +331,6 @@
                             android:background="#0DFFFFFF"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"/>
-
-                        <!-- ADD VEHICLE BUTTON -->
                         <LinearLayout
                             android:id="@+id/btnAddVehicle"
                             android:layout_width="match_parent"

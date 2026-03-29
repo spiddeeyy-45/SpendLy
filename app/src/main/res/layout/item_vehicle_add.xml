@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Vehicle row -->
+    <LinearLayout
+        android:id="@+id/rowVehicleItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
+        <FrameLayout
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:background="@drawable/bg_glass_card">
+
+            <TextView
+                android:id="@+id/tvVehicleEmoji"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="🏍️"
+                android:textSize="22sp"
+                tools:text="🚗"/>
+
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="14dp">
+
+            <TextView
+                android:id="@+id/tvVehicleName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#EEF0FF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Hero Splendor"/>
+
+            <TextView
+                android:id="@+id/tvVehiclePlate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#80B4B9DC"
+                android:textSize="11sp"
+                android:layout_marginTop="2dp"
+                tools:text="MH02 XX 1234 · 2022"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tvVehicleBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Active"
+            android:textColor="#5DE8B8"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:background="@drawable/bg_badge_green"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <!-- Chevron -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="›"
+            android:textColor="#40B4B9DC"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+    <View
+        android:id="@+id/dividerItem"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#0DFFFFFF"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+</LinearLayout>

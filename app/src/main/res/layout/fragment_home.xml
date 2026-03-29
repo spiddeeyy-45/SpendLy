@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#07071A"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HomeFragment">
+    tools:context="UI.HomeFragment">
     <!-- BG ORB 1 — top-left purple -->
     <View
         android:layout_width="300dp"

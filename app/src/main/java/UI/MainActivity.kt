@@ -1,10 +1,11 @@
-package com.example.spendly
+package UI
 
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.example.spendly.R
 import com.example.spendly.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
