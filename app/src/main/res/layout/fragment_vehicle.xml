@@ -112,6 +112,8 @@
                         android:id="@+id/blurExpense"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:clickable="false"
+                        android:focusable="false"
                         app:blurOverlayColor="#1AFFFFFF">
                         <View
                             android:layout_width="match_parent"
@@ -134,6 +136,7 @@
                                 android:fontFamily="@font/syne_bold"
                                 android:layout_marginBottom="16dp"/>
                             <LinearLayout
+
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">

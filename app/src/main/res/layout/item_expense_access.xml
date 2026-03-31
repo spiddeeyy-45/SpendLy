@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/expenseCardRoot"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="6dp">
+    android:padding="6dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
-        android:id="@+id/expenseCardRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -16,8 +19,7 @@
         android:paddingTop="13dp"
         android:paddingBottom="13dp"
         android:background="@drawable/bg_expense_item"
-        android:clickable="true"
-        android:focusable="true">
+        >
 
         <FrameLayout
             android:layout_width="38dp"

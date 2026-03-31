@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/statCardRoot"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:padding="5dp">
 
     <LinearLayout
-        android:id="@+id/statCardRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -33,11 +34,11 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tvStatTrend"
+            android:id="@+id/tvStatLastDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="↑ 8% vs last month"
+            android:text="last month"
             android:textColor="#5DE8B8"
             android:textSize="10sp"
             android:paddingStart="8dp"

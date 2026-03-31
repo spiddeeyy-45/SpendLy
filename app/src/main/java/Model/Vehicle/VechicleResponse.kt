@@ -10,5 +10,6 @@ data class Vehicle(
     val company: String,
     val model: String,
     val number_plate: String,
-    val year: Int?
+    val year: Int?,
+    val total_this_month: Double
 )
