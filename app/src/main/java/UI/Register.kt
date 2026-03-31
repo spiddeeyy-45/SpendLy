@@ -54,6 +54,14 @@ class Register : AppCompatActivity() {
             }
             etPassword.setSelection(etPassword.text.length)
         }
+        binding.tvGoToLogin.setOnClickListener {
+            startActivity(Intent(this,Login::class.java))
+            finish()
+        }
+        binding.alreadyacc.setOnClickListener {
+            startActivity(Intent(this,Login::class.java))
+            finish()
+        }
 
         binding.btnRegister.setOnClickListener {
 

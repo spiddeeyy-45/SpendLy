@@ -1,6 +1,7 @@
 package viewModel.Login
 
 import Model.Login.LoginRequest
+import Model.Login.LoginResultState
 import Model.Register.RegisterResultState
 import Repository.Login.LoginRepository
 import androidx.lifecycle.*
@@ -11,18 +12,19 @@ class LoginViewModel : ViewModel() {
 
     private val repo = LoginRepository()
 
-    private val _loginState = MutableLiveData<RegisterResultState>()
-    val loginState: LiveData<RegisterResultState> = _loginState
+    private val _loginState = MutableLiveData<LoginResultState>()
+    val loginState: LiveData<LoginResultState> = _loginState
 
     fun login(request: LoginRequest) {
         viewModelScope.launch {
-            _loginState.value = RegisterResultState.Loading
+            _loginState.value = LoginResultState.Loading
 
             try {
                 val response = repo.login(request)
 
-                if (response.isSuccessful) {
-                    _loginState.value = RegisterResultState.Success
+                if (response.isSuccessful &&response.body()!=null) {
+                    val data =response.body()!!
+                    _loginState.value = LoginResultState.Success(data)
                 } else {
                     val errorBody = response.errorBody()?.string()
 
@@ -33,11 +35,11 @@ class LoginViewModel : ViewModel() {
                         "Login failed"
                     }
 
-                    _loginState.value = RegisterResultState.Error(message)
+                    _loginState.value = LoginResultState.Error(message)
                 }
 
             } catch (e: Exception) {
-                _loginState.value = RegisterResultState.Error(e.message ?: "Error")
+                _loginState.value = LoginResultState.Error(e.message ?: "Error")
             }
         }
     }

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="UI.addVehicle">
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#07071A"
-    tools:context="UI.addVehicle">
+    android:background="#07071A">
 
     <!-- BG ORB 1 -->
     <View
@@ -60,20 +62,17 @@
                 android:gravity="center"
                 android:layout_marginBottom="28dp">
 
-                <View
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
-                    android:background="@drawable/bg_step_dot_inactive"
-                    android:layout_marginEnd="6dp"/>
 
                 <!-- Active dot (wider) -->
                 <View
+                    android:id="@+id/dot1"
                     android:layout_width="20dp"
                     android:layout_height="6dp"
                     android:background="@drawable/bg_step_dot_active"
                     android:layout_marginEnd="6dp"/>
 
                 <View
+                    android:id="@+id/dot2"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     android:background="@drawable/bg_step_dot_inactive"/>
@@ -405,3 +404,4 @@
     </ScrollView>
 
 </FrameLayout>
+</layout>

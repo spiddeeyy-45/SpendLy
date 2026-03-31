@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 
 import Model.Login.LoginRequest
+import Model.Login.LoginResultState
 import viewModel.Login.LoginViewModel
-import Model.Register.RegisterResultState
+import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.example.spendly.databinding.ActivityLoginBinding
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -68,20 +70,31 @@ class Login : AppCompatActivity() {
         viewModel.loginState.observe(this) { state ->
 
             when (state) {
-                is RegisterResultState.Loading -> {
+                is LoginResultState.Loading -> {
                     binding.tvLoginError.visibility = View.VISIBLE
                     binding.tvLoginError.text = "Logging in..."
                 }
 
-                is RegisterResultState.Success -> {
-                    binding.tvLoginError.text = "Login Success"
-                    val intent = Intent(this,MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                is LoginResultState.Success -> {
 
+                    val response = state.data
+                    val token = response.token
+
+                    if (!token.isNullOrEmpty()) {
+                        val prefs = getSharedPreferences("app", Context.MODE_PRIVATE)
+                        prefs.edit().putString("token", token).apply()
+                        Log.d("LOGIN_SUCCESS", "Token saved: $token")
+                        val intent = Intent(this, addVehicle::class.java)
+                        startActivity(intent)
+                        finish()
+
+                    } else {
+                        binding.tvLoginError.visibility = View.VISIBLE
+                        binding.tvLoginError.text = "Login failed: token missing"
+                    }
                 }
 
-                is RegisterResultState.Error -> {
+                is LoginResultState.Error -> {
                     binding.tvLoginError.visibility = View.VISIBLE
                     binding.tvLoginError.text = state.message
                 }
