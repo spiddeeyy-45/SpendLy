@@ -5,13 +5,11 @@ import android.text.InputType
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-
 import Model.Login.LoginRequest
 import Model.Login.LoginResultState
+import Util.Login.SecurePrefs
 import viewModel.Login.LoginViewModel
-import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.example.spendly.databinding.ActivityLoginBinding
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -33,13 +31,11 @@ class Login : AppCompatActivity() {
         setupUI()
         observeVM()
     }
-
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             fcmToken = it
         }
     }
-
     private fun setupUI() {
 
         binding.tvShowPassword.setOnClickListener {
@@ -55,50 +51,69 @@ class Login : AppCompatActivity() {
             }
             etPassword.setSelection(etPassword.text.length)
         }
-        binding.btnLogin.setOnClickListener {
 
+        binding.btnLogin.setOnClickListener {
             val request = LoginRequest(
                 email = binding.etEmail.text.toString().trim(),
                 password = binding.etPassword.text.toString().trim(),
                 fcmToken = fcmToken
             )
+
             viewModel.login(request)
         }
-    }
 
+        binding.tvForgotPassword.setOnClickListener {
+            val email = binding.etEmail.text.toString().trim()
+            viewModel.forgotPassword(email)
+        }
+        binding.tvGoToRegister.setOnClickListener {
+            startActivity(Intent(this, Register::class.java))
+            finish()
+        }
+    }
     private fun observeVM() {
+
         viewModel.loginState.observe(this) { state ->
 
             when (state) {
+
                 is LoginResultState.Loading -> {
+                    binding.btnLogin.isEnabled = false
                     binding.tvLoginError.visibility = View.VISIBLE
                     binding.tvLoginError.text = "Logging in..."
                 }
 
                 is LoginResultState.Success -> {
 
-                    val response = state.data
-                    val token = response.token
+                    binding.btnLogin.isEnabled = true
 
-                    if (!token.isNullOrEmpty()) {
-                        val prefs = getSharedPreferences("app", Context.MODE_PRIVATE)
-                        prefs.edit().putString("token", token).apply()
-                        Log.d("LOGIN_SUCCESS", "Token saved: $token")
-                        val intent = Intent(this, addVehicle::class.java)
-                        startActivity(intent)
-                        finish()
+                    val prefs = SecurePrefs.getPrefs(this)
+                    prefs.edit()
+                        .putString("token", state.idToken)
+                        .putString("uid", state.userId)
+                        .apply()
 
-                    } else {
-                        binding.tvLoginError.visibility = View.VISIBLE
-                        binding.tvLoginError.text = "Login failed: token missing"
-                    }
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
                 }
 
                 is LoginResultState.Error -> {
+                    binding.btnLogin.isEnabled = true
                     binding.tvLoginError.visibility = View.VISIBLE
                     binding.tvLoginError.text = state.message
                 }
+
+                else -> Unit
             }
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        val prefs = SecurePrefs.getPrefs(this)
+        val token = prefs.getString("token",null)
+        if (!token.isNullOrEmpty()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 }

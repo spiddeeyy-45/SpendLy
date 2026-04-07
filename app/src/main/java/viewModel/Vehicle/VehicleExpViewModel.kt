@@ -3,38 +3,58 @@ package viewModel.Vehicle
 import Model.Vehicle.Stats
 import Model.Vehicle.Vehicle
 import Model.Vehicle.VehicleExpenseRequest
-import Model.Vehicle.VehicleExpenseResponse
 import Repository.Vehicle.VehicleExpRepo
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class VehicleExpViewModel(private val repo:VehicleExpRepo):ViewModel() {
-    private val _expenseState = MutableLiveData<Result<VehicleExpenseResponse>>()
-    val expenseState: LiveData<Result<VehicleExpenseResponse>> = _expenseState
-    private val _vehicleState = MutableLiveData<Result<List<Vehicle>>>()
-    val vehicleState: LiveData<Result<List<Vehicle>>> = _vehicleState
-    private val _statsState = MutableLiveData<Result<Stats>>()
-    val statsState: LiveData<Result<Stats>> = _statsState
+class VehicleExpViewModel(private val repo: VehicleExpRepo) : ViewModel() {
 
-    fun VaddExpense(token: String, request: VehicleExpenseRequest) {
+    val expenseState = MutableLiveData<Result<Unit>>()
+    val vehicleState = MutableLiveData<Result<List<Vehicle>>>()
+    val statsState = MutableLiveData<Result<Stats>>()
+
+    fun addExpense(request: VehicleExpenseRequest) {
+
+        if (request.amount <= 0) {
+            expenseState.value = Result.failure(Exception("Enter valid amount"))
+            return
+        }
+
         viewModelScope.launch {
-            val result = repo.VaddExpense(token, request)
-            _expenseState.postValue(result)
+            try {
+                expenseState.value = Result.failure(Exception("Loading"))
+
+                val result = repo.addExpense(request)
+
+                expenseState.value = result
+
+            } catch (e: Exception) {
+                expenseState.value = Result.failure(e)
+            }
         }
     }
-    fun getVehicles(token: String) {
+
+    fun getVehicles() {
         viewModelScope.launch {
-            val result = repo.getVehicles(token)
-            _vehicleState.postValue(result)
+            try {
+                val result = repo.getVehicles()
+                vehicleState.value = result
+            } catch (e: Exception) {
+                vehicleState.value = Result.failure(e)
+            }
         }
     }
-    fun getStats(token: String, vehicleId: String) {
+
+    fun getStats(vehicleId: String) {
         viewModelScope.launch {
-            val result = repo.getStats(token, vehicleId)
-            _statsState.postValue(result)
+            try {
+                val result = repo.getStats(vehicleId)
+                statsState.value = result
+            } catch (e: Exception) {
+                statsState.value = Result.failure(e)
+            }
         }
     }
 }

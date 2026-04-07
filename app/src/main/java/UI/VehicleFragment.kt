@@ -10,10 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import Model.Vehicle.VehicleExpApiInstance
 import Model.Vehicle.VehicleExpenseRequest
 import Repository.Vehicle.VehicleExpRepo
-import android.content.Context
 import android.util.Log
 import android.widget.TextView
 import com.example.spendly.R
@@ -32,8 +30,6 @@ class VehicleFragment : Fragment() {
 
     private var selectedVehicleId: String? = null
 
-    private var isDataLoaded = false
-    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,23 +43,16 @@ class VehicleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val prefs = requireContext().getSharedPreferences("app", Context.MODE_PRIVATE)
-        Log.d("TOKEN_DEBUG", prefs.getString("token", "NULL") ?: "NULL")
-        token = "Bearer ${prefs.getString("token", "")}"
-
         setupViewModel()
         setupRecyclerView()
         setupClicks()
         observeViewModel()
 
-        viewModel.getVehicles(token)
+        viewModel.getVehicles()
     }
 
     private fun setupViewModel() {
-        val api = VehicleExpApiInstance.api
-        val repo = VehicleExpRepo(api)
-
+        val repo = VehicleExpRepo()
         viewModel = ViewModelProvider(
             this,
             VehicleExpViewModelFact(repo)
@@ -75,7 +64,7 @@ class VehicleFragment : Fragment() {
         adapter = addVehicleAdapter { vehicle ->
             selectedVehicleId = vehicle.id
             Log.d("DEBUG", "VehicleId: $selectedVehicleId")
-            viewModel.getStats(token, vehicle.id)
+            viewModel.getStats(vehicle.id)
         }
 
         binding.rvVehicles.layoutManager =
@@ -100,7 +89,7 @@ class VehicleFragment : Fragment() {
 
                 // auto select first
                 selectedVehicleId = vehicles[0].id
-                viewModel.getStats(token, selectedVehicleId!!)
+                viewModel.getStats(selectedVehicleId!!)
             }
 
             result.onFailure {
@@ -120,8 +109,10 @@ class VehicleFragment : Fragment() {
                 val totalTrend = totalCard.findViewById<TextView>(R.id.tvStatTrend)
 
                 if (stats.total > stats.totalLastMonth) {
+                    totalTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
                     totalTrend.text = "↑ vs last month"
                 } else {
+                    totalTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
                     totalTrend.text = "↓ vs last month"
                 }
 
@@ -135,8 +126,10 @@ class VehicleFragment : Fragment() {
                 val fuelTrend = fuelCard.findViewById<TextView>(R.id.tvStatMonth)
 
                 if (stats.fuelToday > 0) {
+                    fuelTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
                     fuelTrend.text = "↑ Today ₹${stats.fuelToday.toInt()}"
                 } else {
+                    fuelTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
                     fuelTrend.text = "No expense today"
                 }
 
@@ -150,8 +143,10 @@ class VehicleFragment : Fragment() {
                 val serviceTrend = serviceCard.findViewById<TextView>(R.id.tvStatLastDate)
 
                 if (stats.service > stats.serviceLastMonth) {
+                    serviceTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
                     serviceTrend.text = "↑ vs last month"
                 } else {
+                    serviceTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
                     serviceTrend.text = "↓ vs last month"
                 }
 
@@ -165,8 +160,10 @@ class VehicleFragment : Fragment() {
                 val avgTrend = avgCard.findViewById<TextView>(R.id.tvStatTrend)
 
                 if (stats.avgPerDay > 500) {
+                    avgTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
                     avgTrend.text = "↑ High spending"
                 } else {
+                    avgTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
                     avgTrend.text = "↓ Under control"
                 }
             }
@@ -176,19 +173,14 @@ class VehicleFragment : Fragment() {
             }
         }
 
-        // 🔥 EXPENSE RESPONSE
+        // EXPENSE RESPONSE
         viewModel.expenseState.observe(viewLifecycleOwner) { result ->
 
             result.onSuccess {
                 Log.d("SUCCESS", it.toString())
 
-                Toast.makeText(context, "Expense Added ✅", Toast.LENGTH_SHORT).show()
-
-                if (!isDataLoaded) {
-                    Log.d("DEBUG", "Token: $token")
-                    viewModel.getVehicles(token)
-                    isDataLoaded = true
-                }
+                Toast.makeText(context, "Expense Added", Toast.LENGTH_SHORT).show()
+                selectedVehicleId?.let { viewModel.getStats(it) }
             }
 
             result.onFailure {
@@ -240,7 +232,7 @@ class VehicleFragment : Fragment() {
                         amount = amount
                     )
 
-                    viewModel.VaddExpense(token, request)
+                    viewModel.addExpense(request)
 
                 } else {
                     Toast.makeText(
@@ -258,7 +250,5 @@ class VehicleFragment : Fragment() {
         super.onDestroyView()
 
         _binding = null
-        viewModel.vehicleState.removeObservers(viewLifecycleOwner)
-        viewModel.expenseState.removeObservers(viewLifecycleOwner)
     }
 }

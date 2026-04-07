@@ -1,9 +1,7 @@
 package UI
 
 import Model.Vehicle.AddVehicleRequest
-import Model.Vehicle.VehicleApiInstance
 import Repository.Vehicle.VehicleRepository
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -18,7 +16,7 @@ import viewModel.Vehicle.VehicleViewModel
 import viewModel.Vehicle.VehicleViewModelFactory
 
 
-class addVehicle : AppCompatActivity() {
+class AddVehicle : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddVehicleBinding
     private lateinit var viewModel: VehicleViewModel
@@ -29,16 +27,12 @@ class addVehicle : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // ✅ DataBinding setup (IMPORTANT)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_vehicle)
 
-        // INIT MVVM (FIXED)
-        val api = VehicleApiInstance.api
-        val repo = VehicleRepository(api)
+        val repo = VehicleRepository()
         val factory = VehicleViewModelFactory(repo)
         viewModel = ViewModelProvider(this, factory)[VehicleViewModel::class.java]
 
-        // TYPE SELECTION
 
         binding.btnSelectBike.setOnClickListener {
             selectedType = "bike"
@@ -55,48 +49,55 @@ class addVehicle : AppCompatActivity() {
             goToHome()
         }
 
-        val token = getToken()
-
-        // ADD VEHICLE CLICK
+        // VEHICLE CLICK
         binding.btnAddVehicle.setOnClickListener {
+            val company = binding.etCompany.text.toString().trim()
+            val model = binding.etModel.text.toString().trim()
+            val plate = binding.etNumberPlate.text.toString().trim()
+            val year = binding.etYear.text.toString().toIntOrNull()
+            if (company.isEmpty() || model.isEmpty() || plate.isEmpty()) {
+                showError("All fields are required")
+                return@setOnClickListener
+            }
 
             val request = AddVehicleRequest(
                 type = selectedType,
-                company = binding.etCompany.text.toString().trim(),
-                model = binding.etModel.text.toString().trim(),
-                number_plate = binding.etNumberPlate.text.toString().trim(),
-                year = binding.etYear.text.toString().toIntOrNull()
+                company = company,
+                model = model,
+                number_plate = plate,
+                year = year
             )
 
-            viewModel.addVehicle(token, request)
+            viewModel.addVehicle(request)
         }
 
         // OBSERVE RESULT
         viewModel.addVehicleState.observe(this) { result ->
 
-            result.onSuccess {
-                Toast.makeText(this, "Vehicle Added 🚀", Toast.LENGTH_SHORT).show()
-                goToHome()
-                // Clear fields
-                binding.etCompany.text.clear()
-                binding.etModel.text.clear()
-                binding.etNumberPlate.text.clear()
-                binding.etYear.text.clear()
+            binding.btnAddVehicle.isEnabled = true
 
-                binding.tvAddVehicleError.visibility = View.GONE
+            result.onSuccess {
+                Toast.makeText(this, "Vehicle Added ", Toast.LENGTH_SHORT).show()
+                goToHome()
             }
 
             result.onFailure {
-                binding.tvAddVehicleError.visibility = View.VISIBLE
-                binding.tvAddVehicleError.text = it.message
+
+                if (it.message == "Loading") {
+                    binding.btnAddVehicle.isEnabled = false
+                    binding.tvAddVehicleError.visibility = View.VISIBLE
+                    binding.tvAddVehicleError.text = "Adding vehicle..."
+                } else {
+                    binding.tvAddVehicleError.visibility = View.VISIBLE
+                    binding.tvAddVehicleError.text = it.message
+                }
             }
         }
     }
 
-    // 🔐 TOKEN
-    private fun getToken(): String {
-        return getSharedPreferences("app", Context.MODE_PRIVATE)
-            .getString("token", "") ?: ""
+    private fun showError(message: String) {
+        binding.tvAddVehicleError.visibility = View.VISIBLE
+        binding.tvAddVehicleError.text = message
     }
     private fun updateVehicleSelection(type: String) {
 
@@ -116,7 +117,7 @@ class addVehicle : AppCompatActivity() {
     }
     private fun goToHome() {
         startActivity(Intent(this, MainActivity::class.java))
-        finish() // prevents going back
+        finish()
     }
     private fun updateStepDots(activeStep: Int) {
 

@@ -83,21 +83,30 @@ class Register : AppCompatActivity() {
         viewModel.registerState.observe(this) { state ->
 
             when (state) {
+
                 is RegisterResultState.Loading -> {
+                    binding.btnRegister.isEnabled = false
                     binding.tvRegisterError.visibility = View.VISIBLE
                     binding.tvRegisterError.text = "Creating account..."
                 }
                 is RegisterResultState.Success -> {
-                    binding.tvRegisterError.text = "Account Created!"
-                    val intent =Intent(this,Login::class.java)
-                    startActivity(intent)
-                    finish()
 
+                    binding.btnRegister.isEnabled = true
+
+                    binding.tvRegisterError.text = "Account created successfully"
+                    binding.root.postDelayed({
+                        startActivity(Intent(this, AddVehicle::class.java))
+                        finish()
+                    }, 800)
                 }
+
                 is RegisterResultState.Error -> {
+                    binding.btnRegister.isEnabled = true
                     binding.tvRegisterError.visibility = View.VISIBLE
                     binding.tvRegisterError.text = state.message
                 }
+
+                else -> Unit
             }
         }
     }

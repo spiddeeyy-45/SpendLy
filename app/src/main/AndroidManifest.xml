@@ -14,11 +14,15 @@
         android:theme="@style/Theme.SpendLy"
         tools:targetApi="31">
         <activity
-            android:name="UI.addVehicle"
+            android:name="UI.AddVehicle"
             android:exported="false" />
         <activity
             android:name="UI.Register"
             android:exported="true" >
+        </activity>
+        <activity
+            android:name="UI.Login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,12 +30,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="UI.Login"
-            android:exported="false" />
-        <activity
             android:name="UI.MainActivity"
             android:exported="true">
-
         </activity>
 
         <meta-data
