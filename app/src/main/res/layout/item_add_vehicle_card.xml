@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/item_vehicle_card_add.xml -->
-<!-- "Add Vehicle" card — same width as item_vehicle_card.xml -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="200dp"
+    android:focusable="true"
+    android:clickable="true"
     android:layout_height="wrap_content"
     android:layout_marginEnd="14dp">
 
     <eightbitlab.com.blurview.BlurView
         android:id="@+id/blurAddCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false">
 
         <LinearLayout
             android:id="@+id/addVehicleCardRoot"

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_sheet">
+
+        <eightbitlab.com.blurview.BlurView
+            android:id="@+id/blurUpdateProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_dialog_glass"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="32dp">
+
+                <!-- Drag handle -->
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="4dp"
+                    android:background="@drawable/bg_drag_handle"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- Title row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="24dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Edit Profile"
+                            android:textColor="#EEF0FF"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Update your personal details"
+                            android:textColor="#60B4B9DC"
+                            android:textSize="12sp"
+                            android:layout_marginTop="2dp"/>
+
+                    </LinearLayout>
+
+                    <!-- Close button -->
+                    <FrameLayout
+                        android:id="@+id/btnClose"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_close_btn"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <View
+                            android:layout_width="14dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center"
+                            android:rotation="45"
+                            android:background="#80B4B9DC"/>
+
+                        <View
+                            android:layout_width="14dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center"
+                            android:rotation="-45"
+                            android:background="#80B4B9DC"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <!-- ══ PROFILE IMAGE ══ -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginBottom="24dp">
+
+                    <FrameLayout
+                        android:layout_width="86dp"
+                        android:layout_height="86dp"
+                        android:layout_gravity="center">
+
+                        <!-- Fallback emoji avatar -->
+                        <TextView
+                            android:id="@+id/tvAvatarPreview"
+                            android:layout_width="86dp"
+                            android:layout_height="86dp"
+                            android:gravity="center"
+                            android:text="AZ"
+                            android:textSize="34sp"
+                            android:background="@drawable/bg_avatar"
+                            android:visibility="visible"/>
+
+                        <!-- Actual profile image -->
+                        <ImageView
+                            android:id="@+id/ivProfilePreview"
+                            android:layout_width="86dp"
+                            android:layout_height="86dp"
+                            android:background="@drawable/bg_avatar"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone"
+                            tools:visibility="gone"/>
+
+                        <!-- Camera badge -->
+                        <FrameLayout
+                            android:id="@+id/btnChangePhoto"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/bg_camera_badge"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_camera" />
+
+                        </FrameLayout>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tap to change photo"
+                        android:textColor="#50B4B9DC"
+                        android:textSize="11sp"
+                        android:layout_marginTop="8dp"/>
+
+                </LinearLayout>
+
+                <!-- ══ FULL NAME ══ -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FULL NAME"
+                    android:textColor="#60B4B9DC"
+                    android:textSize="10sp"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/bg_input_field"
+                    android:layout_marginBottom="14dp">
+
+                    <EditText
+                        android:id="@+id/etFullName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:hint="Your full name"
+                        android:textColorHint="#40B4B9DC"
+                        android:textColor="#EEF0FF"
+                        android:textSize="13sp"
+                        android:inputType="textPersonName"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        tools:text="Arbaz Shaikh"/>
+
+                </LinearLayout>
+
+                <!-- ══ EMAIL ══ -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EMAIL"
+                    android:textColor="#60B4B9DC"
+                    android:textSize="10sp"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/bg_input_field"
+                    android:layout_marginBottom="14dp">
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:hint="your@email.com"
+                        android:textColorHint="#40B4B9DC"
+                        android:textColor="#EEF0FF"
+                        android:textSize="13sp"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        tools:text="arbaz@email.com"/>
+
+                </LinearLayout>
+
+                <!-- ══ PHONE ══ -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PHONE"
+                    android:textColor="#60B4B9DC"
+                    android:textSize="10sp"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/bg_input_field"
+                    android:layout_marginBottom="14dp">
+
+                    <EditText
+                        android:id="@+id/etPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:hint="+91 99999 99999"
+                        android:textColorHint="#40B4B9DC"
+                        android:textColor="#EEF0FF"
+                        android:textSize="13sp"
+                        android:inputType="phone"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        tools:text="+91 98765 43210"/>
+
+                </LinearLayout>
+
+                <!-- ══ LOCATION / CITY ══ -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CITY / LOCATION"
+                    android:textColor="#60B4B9DC"
+                    android:textSize="10sp"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/bg_input_field"
+                    android:layout_marginBottom="22dp">
+
+                    <EditText
+                        android:id="@+id/etLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:hint="e.g. Mumbai, Delhi"
+                        android:textColorHint="#40B4B9DC"
+                        android:textColor="#EEF0FF"
+                        android:textSize="13sp"
+                        android:inputType="textCapWords"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
+                        tools:text="Mumbai"/>
+
+                </LinearLayout>
+
+                <!-- ══ SAVE BUTTON ══ -->
+                <TextView
+                    android:id="@+id/btnSaveProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="Save Changes"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/bg_btn_primary"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <!-- Error -->
+                <TextView
+                    android:id="@+id/tvUpdateError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#FF8A8A"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </eightbitlab.com.blurview.BlurView>
+
+    </FrameLayout>
+
+</layout>

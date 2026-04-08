@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import Model.Vehicle.VehicleExpenseRequest
 import Repository.Vehicle.VehicleExpRepo
+import Repository.Vehicle.VehicleRepository
 import android.graphics.Color
 import android.util.Log
 import android.widget.TextView
@@ -21,6 +22,8 @@ import com.example.spendly.databinding.FragmentVehicleBinding
 import Util.vehicleAdapter.addVehicleAdapter
 import viewModel.Vehicle.VehicleExpViewModel
 import viewModel.Vehicle.VehicleExpViewModelFact
+import viewModel.Vehicle.VehicleViewModel
+import viewModel.Vehicle.VehicleViewModelFactory
 
 class VehicleFragment : Fragment() {
 
@@ -29,6 +32,7 @@ class VehicleFragment : Fragment() {
 
     private lateinit var viewModel: VehicleExpViewModel
     private lateinit var adapter: addVehicleAdapter
+    private lateinit var vehicleViewModel: VehicleViewModel
 
     private var selectedVehicleId: String? = null
 
@@ -46,11 +50,14 @@ class VehicleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
+        setupVehicleVM()
         setupRecyclerView()
         setupClicks()
         observeViewModel()
 
+
         viewModel.getVehicles()
+        vehicleViewModel.getVehicles()
     }
 
     private fun setupViewModel() {
@@ -69,7 +76,8 @@ class VehicleFragment : Fragment() {
                 viewModel.getStats(vehicle.id)
             },
             onAddVehicleClick = {
-                Toast.makeText(requireContext(), "Add Vehicle Clicked", Toast.LENGTH_SHORT).show()
+                Log.d("ADD_CLICK", "Add clicked")
+                openAddVehicleDialog()
             }
         )
 
@@ -86,9 +94,9 @@ class VehicleFragment : Fragment() {
             setHasFixedSize(true)
             clipToPadding = false
             clipChildren = false
-            setPadding(80, 0, 80, 0)
-        }
+            setPadding(0, 0, 80, 0)
 
+        }
         val snapHelper = androidx.recyclerview.widget.LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvVehicles)
         binding.rvVehicles.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -108,16 +116,28 @@ class VehicleFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        vehicleViewModel.addVehicleState.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(context, "Vehicle Added", Toast.LENGTH_SHORT).show()
+                vehicleViewModel.getVehicles()
+            }
+
+            result.onFailure {
+                if (it.message != "Loading...") {
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         viewModel.vehicleState.observe(viewLifecycleOwner) { result ->
             if (_binding == null) return@observe
 
             result.onSuccess { vehicles ->
 
-                if (vehicles.isEmpty()) {
-                    Toast.makeText(context, "Add a vehicle first", Toast.LENGTH_SHORT).show()
-                    return@onSuccess
-                }
+
                 adapter.updateData(vehicles)
+                if (vehicles.isEmpty()) {
+                    Toast.makeText(context, "No vehicles yet, add one", Toast.LENGTH_SHORT).show()
+                }
 
                 // auto select first
                 if (vehicles.isNotEmpty()) {
@@ -293,5 +313,75 @@ class VehicleFragment : Fragment() {
         super.onDestroyView()
 
         _binding = null
+    }
+    private fun setupVehicleVM() {
+        val repo = VehicleRepository()
+
+        vehicleViewModel = ViewModelProvider(
+            this,
+            VehicleViewModelFactory(repo)
+        )[VehicleViewModel::class.java]
+    }
+    private fun openAddVehicleDialog() {
+
+        val dialog = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.dialog_add_vehicle, null)
+
+        dialog.setContentView(view)
+        dialog.show()
+
+        // Views
+        val etCompany = view.findViewById<EditText>(R.id.etCompany)
+        val etModel = view.findViewById<EditText>(R.id.etModel)
+        val etPlate = view.findViewById<EditText>(R.id.etNumberPlate)
+        val etYear = view.findViewById<EditText>(R.id.etYear)
+
+        val btnAdd = view.findViewById<TextView>(R.id.btnAddVehicle)
+        val btnClose = view.findViewById<View>(R.id.btnClose)
+        val tvError = view.findViewById<TextView>(R.id.tvAddVehicleError)
+
+        val btnBike = view.findViewById<View>(R.id.btnSelectBike)
+        val btnCar = view.findViewById<View>(R.id.btnSelectCar)
+
+        var selectedType = "bike"
+
+        // TYPE SWITCH
+        btnBike.setOnClickListener {
+            selectedType = "bike"
+            btnBike.setBackgroundResource(R.drawable.bg_vehicle_type_selected)
+            btnCar.setBackgroundResource(R.drawable.bg_vehicle_default)
+        }
+
+        btnCar.setOnClickListener {
+            selectedType = "car"
+            btnCar.setBackgroundResource(R.drawable.bg_vehicle_type_selected)
+            btnBike.setBackgroundResource(R.drawable.bg_vehicle_default)
+        }
+
+        // CLOSE
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // ADD VEHICLE
+        btnAdd.setOnClickListener {
+
+            val company = etCompany.text.toString().trim()
+            val model = etModel.text.toString().trim()
+            val plate = etPlate.text.toString().trim()
+            val year = etYear.text.toString().toIntOrNull()
+
+            val request = Model.Vehicle.AddVehicleRequest(
+                type = selectedType,
+                company = company,
+                model = model,
+                number_plate = plate,
+                year = year
+            )
+
+            vehicleViewModel.addVehicle(request)
+            dialog.dismiss()
+
+        }
     }
 }

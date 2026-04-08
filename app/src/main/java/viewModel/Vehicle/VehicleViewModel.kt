@@ -42,7 +42,7 @@ class VehicleViewModel(private val repo: VehicleRepository) : ViewModel() {
             try {
                 addVehicleState.value = Result.failure(Exception("Loading..."))
 
-                val result = repo.addVehicle(request)
+                val result = repo.addVehicle(updatedRequest)
 
                 addVehicleState.value = result
             } catch (e:Exception){

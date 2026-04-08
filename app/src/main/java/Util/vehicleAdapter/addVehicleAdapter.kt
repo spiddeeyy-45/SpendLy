@@ -1,6 +1,7 @@
 package Util.vehicleAdapter
 
 import Model.Vehicle.Vehicle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,11 +60,16 @@ class addVehicleAdapter(
 
         // ---------------- ADD CARD ---------------- //
         if (holder is AddVehicleViewHolder) {
-            holder.itemView.setOnClickListener {
+            val root = holder.itemView.findViewById<View>(R.id.addVehicleCardRoot)
+
+            root.setOnClickListener {
+                Log.d("ADD_CLICK", "Clicked ROOT")
                 onAddVehicleClick()
             }
 
-            applyCarouselEffect(holder.itemView, position)
+            holder.itemView.scaleX = 1f
+            holder.itemView.scaleY = 1f
+            holder.itemView.alpha = 1f
             return
         }
 
