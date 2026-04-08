@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="UI.ProfileFragment">
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#07071A"
-    tools:context="UI.ProfileFragment">
+    android:background="#07071A">
 
     <!-- BG ORB 1 — top-left purple -->
     <View
@@ -91,6 +92,7 @@
                             android:id="@+id/ivProfileImage"
                             android:layout_width="88dp"
                             android:layout_height="88dp"
+                            android:clipToOutline="true"
                             android:background="@drawable/bg_avatar"
                             android:scaleType="centerCrop"
                             android:visibility="gone"
@@ -623,3 +625,4 @@
     </ScrollView>
 
 </FrameLayout>
+</layout>

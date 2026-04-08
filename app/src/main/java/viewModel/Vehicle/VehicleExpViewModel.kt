@@ -24,8 +24,6 @@ class VehicleExpViewModel(private val repo: VehicleExpRepo) : ViewModel() {
 
         viewModelScope.launch {
             try {
-                expenseState.value = Result.failure(Exception("Loading"))
-
                 val result = repo.addExpense(request)
 
                 expenseState.value = result

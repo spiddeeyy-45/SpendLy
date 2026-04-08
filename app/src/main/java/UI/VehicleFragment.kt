@@ -12,12 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import Model.Vehicle.VehicleExpenseRequest
 import Repository.Vehicle.VehicleExpRepo
+import android.graphics.Color
 import android.util.Log
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendly.R
 import com.example.spendly.databinding.FragmentVehicleBinding
-import util.vehicleAdapter.addVehicleAdapter
+import Util.vehicleAdapter.addVehicleAdapter
 import viewModel.Vehicle.VehicleExpViewModel
 import viewModel.Vehicle.VehicleExpViewModelFact
 
@@ -132,6 +133,7 @@ class VehicleFragment : Fragment() {
         viewModel.statsState.observe(viewLifecycleOwner) { result ->
 
             result.onSuccess { stats ->
+                selectedVehicleId?.let { adapter.updateVehicleAmount(it,stats.total) }
 
                 // ================= TOTAL =================
                 val totalCard = binding.cardTotalSpend
@@ -144,9 +146,11 @@ class VehicleFragment : Fragment() {
                 if (stats.total > stats.totalLastMonth) {
                     totalTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
                     totalTrend.text = "↑ vs last month"
+                    totalTrend.setTextColor(Color.parseColor("#EF4444"))
                 } else {
                     totalTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
                     totalTrend.text = "↓ vs last month"
+                    totalTrend.setTextColor(Color.parseColor("#34D399"))
                 }
 
 
@@ -161,9 +165,11 @@ class VehicleFragment : Fragment() {
                 if (stats.fuelToday > 0) {
                     fuelTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
                     fuelTrend.text = "↑ Today ₹${stats.fuelToday.toInt()}"
+                    fuelTrend.setTextColor(Color.parseColor("#EF4444"))
                 } else {
                     fuelTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
                     fuelTrend.text = "No expense today"
+                    fuelTrend.setTextColor(Color.parseColor("#34D399"))
                 }
 
 
@@ -178,9 +184,11 @@ class VehicleFragment : Fragment() {
                 if (stats.service > stats.serviceLastMonth) {
                     serviceTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
                     serviceTrend.text = "↑ vs last month"
+                    serviceTrend.setTextColor(Color.parseColor("#EF4444"))
                 } else {
                     serviceTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
                     serviceTrend.text = "↓ vs last month"
+                    serviceTrend.setTextColor(Color.parseColor("#34D399"))
                 }
 
 
@@ -195,9 +203,11 @@ class VehicleFragment : Fragment() {
                 if (stats.avgPerDay > 500) {
                     avgTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
                     avgTrend.text = "↑ High spending"
+                    avgTrend.setTextColor(Color.parseColor("#EF4444"))
                 } else {
                     avgTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
                     avgTrend.text = "↓ Under control"
+                    avgTrend.setTextColor(Color.parseColor("#34D399"))
                 }
             }
 

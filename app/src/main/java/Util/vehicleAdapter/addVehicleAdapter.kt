@@ -1,4 +1,4 @@
-package util.vehicleAdapter
+package Util.vehicleAdapter
 
 import Model.Vehicle.Vehicle
 import android.view.LayoutInflater
@@ -134,5 +134,16 @@ class addVehicleAdapter(
         selectedPosition = position
         notifyItemChanged(old)
         notifyItemChanged(position)
+    }
+    fun updateVehicleAmount(vehicleId: String, newAmount: Double) {
+        val index = vehicles.indexOfFirst { it.id == vehicleId }
+        if (index != -1) {
+            val updatedList = vehicles.toMutableList()
+            updatedList[index] = updatedList[index].copy(
+                total_this_month = newAmount
+            )
+            vehicles = updatedList
+            notifyItemChanged(index)
+        }
     }
 }

@@ -11,6 +11,7 @@ import Util.Login.SecurePrefs
 import viewModel.Login.LoginViewModel
 import android.content.Intent
 import com.example.spendly.databinding.ActivityLoginBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
 
 class Login : AppCompatActivity() {
@@ -109,9 +110,13 @@ class Login : AppCompatActivity() {
     }
     override fun onStart() {
         super.onStart()
+
         val prefs = SecurePrefs.getPrefs(this)
-        val token = prefs.getString("token",null)
-        if (!token.isNullOrEmpty()) {
+        val token = prefs.getString("token", null)
+
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+
+        if (!token.isNullOrEmpty() && firebaseUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
