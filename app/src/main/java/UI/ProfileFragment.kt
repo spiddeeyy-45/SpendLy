@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.spendly.R
 import com.example.spendly.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
@@ -59,6 +60,13 @@ class ProfileFragment : Fragment() {
             result.onSuccess { profile ->
 
                 currentProfile = profile
+                if (profile.isPremium) {
+                    binding.tvBadgePlan.text = "Premium"
+                    binding.tvBadgePlan.setBackgroundResource(R.drawable.bg_badge_purple)
+                } else {
+                    binding.tvBadgePlan.text = "Free"
+                    binding.tvBadgePlan.setBackgroundResource(R.drawable.bg_setting_default)
+                }
 
                 binding.tvProfileName.text = profile.name
 
@@ -122,13 +130,11 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
     }
-
     // OPEN GALLERY
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }
-
     // IMAGE RESULT
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -171,13 +177,11 @@ class ProfileFragment : Fragment() {
             }
         }
     }
-
     //  DATE FORMAT
     private fun formatDate(timestamp: Long): String {
         val sdf = java.text.SimpleDateFormat("MMM yyyy", java.util.Locale.getDefault())
         return sdf.format(java.util.Date(timestamp))
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

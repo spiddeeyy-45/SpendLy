@@ -6,6 +6,7 @@ data class RegisterRequest(
     val email: String,
     val phone: String,
     val password: String,
+    val isPremium:Boolean,
     val fcmToken:String?
 )
 

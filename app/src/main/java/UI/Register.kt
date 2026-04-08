@@ -71,6 +71,7 @@ class Register : AppCompatActivity() {
                 email = binding.etEmail.text.toString().trim(),
                 phone = binding.etPhone.text.toString().trim(),
                 password = binding.etPassword.text.toString().trim(),
+                isPremium = false,
                 fcmToken=fcmToken
             )
 

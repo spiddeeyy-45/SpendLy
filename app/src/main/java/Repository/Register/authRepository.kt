@@ -28,6 +28,7 @@ class authRepository {
                 "phone" to request.phone,
                 "location" to request.location,
                 "fcmToken" to request.fcmToken,
+                "isPremium" to false,
                 "createdAt" to System.currentTimeMillis()
             )
             firestore.collection("Users")
