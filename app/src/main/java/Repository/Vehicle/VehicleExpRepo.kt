@@ -33,26 +33,25 @@ class VehicleExpRepo {
 
             firestore.runTransaction { transaction ->
 
-                // 1. Save expense
-                val expenseRef = userRef
-                    .collection("VehicleExpenses")
-                    .document(expenseId)
-
-                transaction.set(expenseRef, expense)
-
-                // 2. Update vehicle total
                 val vehicleRef = userRef
                     .collection("Vehicles")
                     .document(request.vehicle_id)
 
+                val expenseRef = userRef
+                    .collection("VehicleExpenses")
+                    .document(expenseId)
+
                 val snapshot = transaction.get(vehicleRef)
                 val currentTotal = snapshot.getDouble("total_this_month") ?: 0.0
+
+                transaction.set(expenseRef, expense)
 
                 transaction.update(
                     vehicleRef,
                     "total_this_month",
                     currentTotal + request.amount
                 )
+
             }.await()
 
             Result.success(Unit)

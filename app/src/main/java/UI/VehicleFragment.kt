@@ -14,6 +14,7 @@ import Model.Vehicle.VehicleExpenseRequest
 import Repository.Vehicle.VehicleExpRepo
 import android.util.Log
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.spendly.R
 import com.example.spendly.databinding.FragmentVehicleBinding
 import util.vehicleAdapter.addVehicleAdapter
@@ -61,18 +62,48 @@ class VehicleFragment : Fragment() {
 
     private fun setupRecyclerView() {
 
-        adapter = addVehicleAdapter { vehicle ->
-            selectedVehicleId = vehicle.id
-            Log.d("DEBUG", "VehicleId: $selectedVehicleId")
-            viewModel.getStats(vehicle.id)
+        adapter = addVehicleAdapter(
+            onVehicleClick = { vehicle ->
+                selectedVehicleId = vehicle.id
+                viewModel.getStats(vehicle.id)
+            },
+            onAddVehicleClick = {
+                Toast.makeText(requireContext(), "Add Vehicle Clicked", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        val layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+
+        binding.rvVehicles.layoutManager = layoutManager
+        binding.rvVehicles.adapter = adapter
+
+        binding.rvVehicles.apply {
+            setHasFixedSize(true)
+            clipToPadding = false
+            clipChildren = false
+            setPadding(80, 0, 80, 0)
         }
 
-        binding.rvVehicles.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val snapHelper = androidx.recyclerview.widget.LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvVehicles)
+        binding.rvVehicles.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
 
-       _binding?.let { binding ->
-           binding.rvVehicles.adapter = adapter
-       }
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val centerView = snapHelper.findSnapView(layoutManager)
+                    val pos = centerView?.let { layoutManager.getPosition(it) }
+
+                    if (pos != null && pos != RecyclerView.NO_POSITION) {
+                        adapter.setSelectedPosition(pos)
+                    }
+                }
+            }
+        })
     }
 
     private fun observeViewModel() {
@@ -88,8 +119,10 @@ class VehicleFragment : Fragment() {
                 adapter.updateData(vehicles)
 
                 // auto select first
-                selectedVehicleId = vehicles[0].id
-                viewModel.getStats(selectedVehicleId!!)
+                if (vehicles.isNotEmpty()) {
+                    selectedVehicleId = vehicles[0].id
+                    viewModel.getStats(selectedVehicleId!!)
+                }
             }
 
             result.onFailure {
