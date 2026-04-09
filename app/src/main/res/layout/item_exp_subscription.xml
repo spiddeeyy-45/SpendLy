@@ -12,25 +12,25 @@
     android:focusable="true">
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
         android:paddingTop="13dp"
         android:paddingBottom="13dp"
-        android:background="@drawable/bg_expense_item">
+        android:background="@drawable/bg_expense_item"
+        >
 
         <FrameLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/bg_service">
+            android:background="@drawable/bg_icon_fuel">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_service"/>
+                android:src="@drawable/ic_subscription" />
 
         </FrameLayout>
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:text="Service"
+            android:text="Subscription"
             android:textColor="#A6B4B9DC"
             android:textSize="10sp"
             android:textAlignment="center"/>

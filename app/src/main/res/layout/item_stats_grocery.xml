@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/statCardRoot"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp"
+        android:background="@drawable/bg_stats_card">
+
+        <TextView
+            android:id="@+id/tvStatLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GROCERY SPEND"
+            android:textColor="#80B4B9DC"
+            android:textSize="10sp"
+            android:textAllCaps="true"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/tvStatValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹5,800"
+            android:textColor="#EEF0FF"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvStatMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="4 March"
+            android:textColor="#FF8A8A"
+            android:textSize="10sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:background="@drawable/bg_pill_down"/>
+
+    </LinearLayout>
+</LinearLayout>

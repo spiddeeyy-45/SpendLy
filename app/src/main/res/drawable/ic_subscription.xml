@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Credit Card -->
+    <path
+        android:fillColor="#B9BBCA"
+        android:pathData="M20,4L4,4c-1.11,0 -1.99,0.89 -1.99,2L2,18c0,1.11 0.89,2 2,2h16c1.11,0 2,-0.89 2,-2L22,6c0,-1.11 -0.89,-2 -2,-2zM20,18L4,18v-6h16v6zM20,8L4,8L4,6h16v2z"/>
+    <!-- Recurring arrows -->
+    <path
+        android:fillColor="#780318"
+        android:pathData="M6.5,14.5h3v1h-3z"/>
+    <path
+        android:fillColor="#5B021C"
+        android:pathData="M11,14.5h2v1h-2z"/>
+    <path
+        android:fillColor="#075007"
+        android:pathData="M17.5,13.5l-1.5,1.5l1.5,1.5l0,-0.75h1.5v-1.5h-1.5z"/>
+    <path
+        android:fillColor="#ED043B"
+        android:pathData="M15.5,13.5l1.5,-1.5l-1.5,-1.5l0,0.75h-1.5v1.5h1.5z"/>
+</vector>

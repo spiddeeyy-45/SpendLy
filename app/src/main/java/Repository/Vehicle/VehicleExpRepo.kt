@@ -16,8 +16,7 @@ class VehicleExpRepo {
     //  ADD EXPENSE + UPDATE VEHICLE TOTAL
     suspend fun addExpense(request: VehicleExpenseRequest): Result<Unit> {
         return try {
-            val uid = auth.currentUser?.uid
-                ?: return Result.failure(Exception("User not logged in"))
+            val uid = auth.currentUser?.uid ?: return Result.failure(Exception("User not logged in"))
 
             val expenseId = UUID.randomUUID().toString()
 
