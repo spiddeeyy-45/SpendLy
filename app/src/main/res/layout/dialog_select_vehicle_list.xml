@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_sheet">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_dialog_glass"
+            android:padding="20dp">
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:background="@drawable/bg_drag_handle"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Vehicle"
+                android:textColor="#EEF0FF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/syne_bold"
+                android:layout_marginBottom="16dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvVehicleSelect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_vehicle_list"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

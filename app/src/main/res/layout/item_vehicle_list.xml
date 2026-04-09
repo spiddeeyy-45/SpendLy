@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:background="@drawable/bg_input_field"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvVehicleName"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="#EEF0FF"
+        android:textSize="14sp"
+        android:fontFamily="@font/syne_bold"
+        android:text="Hero Splendor"/>
+
+    <TextView
+        android:id="@+id/tvCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✓"
+        android:textColor="#A99DFF"
+        android:visibility="gone"/>
+</LinearLayout>

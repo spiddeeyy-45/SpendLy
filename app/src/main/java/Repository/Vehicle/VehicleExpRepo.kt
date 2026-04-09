@@ -25,7 +25,8 @@ class VehicleExpRepo {
                 "vehicle_id" to request.vehicle_id,
                 "type" to request.type,
                 "amount" to request.amount,
-                "createdAt" to System.currentTimeMillis()
+                "createdAt" to request.date,
+                "note" to request.note
             )
 
             val userRef = firestore.collection("Users").document(uid)

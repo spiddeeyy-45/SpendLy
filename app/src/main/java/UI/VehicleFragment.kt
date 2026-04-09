@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import Model.Vehicle.VehicleExpenseRequest
 import Repository.Vehicle.VehicleExpRepo
 import Repository.Vehicle.VehicleRepository
+import Util.vehicleAdapter.VehicleSelectAdapter
 import android.graphics.Color
 import android.util.Log
 import android.widget.TextView
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spendly.R
 import com.example.spendly.databinding.FragmentVehicleBinding
 import Util.vehicleAdapter.addVehicleAdapter
+import android.widget.ImageView
 import viewModel.Vehicle.VehicleExpViewModel
 import viewModel.Vehicle.VehicleExpViewModelFact
 import viewModel.Vehicle.VehicleViewModel
@@ -31,6 +33,7 @@ class VehicleFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: VehicleExpViewModel
+    private var selectedVehicleName: String? = null
     private lateinit var adapter: addVehicleAdapter
     private lateinit var vehicleViewModel: VehicleViewModel
 
@@ -67,12 +70,12 @@ class VehicleFragment : Fragment() {
             VehicleExpViewModelFact(repo)
         )[VehicleExpViewModel::class.java]
     }
-
     private fun setupRecyclerView() {
 
         adapter = addVehicleAdapter(
             onVehicleClick = { vehicle ->
                 selectedVehicleId = vehicle.id
+                selectedVehicleName = "${vehicle.company} ${vehicle.model}"
                 viewModel.getStats(vehicle.id)
             },
             onAddVehicleClick = {
@@ -114,12 +117,11 @@ class VehicleFragment : Fragment() {
             }
         })
     }
-
     private fun observeViewModel() {
         vehicleViewModel.addVehicleState.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 Toast.makeText(context, "Vehicle Added", Toast.LENGTH_SHORT).show()
-                vehicleViewModel.getVehicles()
+                viewModel.getVehicles()
             }
 
             result.onFailure {
@@ -252,7 +254,6 @@ class VehicleFragment : Fragment() {
             }
         }
     }
-
     private fun setupClicks() {
 
         val map = mapOf(
@@ -269,44 +270,113 @@ class VehicleFragment : Fragment() {
 
         map.forEach { (view, type) ->
             view.setOnClickListener {
-                openExpenseDialog(type)
+                openExpenseBottomSheet(type)
             }
         }
     }
+    private fun openExpenseBottomSheet(type: String) {
 
-    private fun openExpenseDialog(type: String) {
+        val dialog = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.dialog_vehicle_add_expense, null)
 
-        val input = EditText(requireContext())
-        input.hint = "Enter amount"
+        dialog.setContentView(view)
+        dialog.show()
 
-        AlertDialog.Builder(requireContext())
-            .setTitle("Add $type expense")
-            .setView(input)
-            .setPositiveButton("Add") { _, _ ->
+        // ---------------- VIEWS ---------------- //
+        val etAmount = view.findViewById<EditText>(R.id.etAmount)
+        val etNote = view.findViewById<EditText>(R.id.etNote)
+        val tvDate = view.findViewById<TextView>(R.id.tvSelectedDate)
+        val tvVehicle = view.findViewById<TextView>(R.id.tvSelectedVehicle)
+        val btnSave = view.findViewById<TextView>(R.id.btnSaveExpense)
+        val btnClose = view.findViewById<View>(R.id.btnClose)
+        val tvCategory = view.findViewById<TextView>(R.id.tvCategoryName)
+        val imgCategory = view.findViewById<ImageView>(R.id.imgCategoryIcon)
+        val iconBg = view.findViewById<View>(R.id.ivCategoryIcon)
 
-                val amount = input.text.toString().toDoubleOrNull()
-
-
-                if (amount != null && selectedVehicleId != null) {
-
-                    val request = VehicleExpenseRequest(
-                        vehicle_id = selectedVehicleId!!,
-                        type = type,
-                        amount = amount
-                    )
-
-                    viewModel.addExpense(request)
-
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Select vehicle & valid amount",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        // ---------------- VEHICLE AUTO SELECT ---------------- //
+        tvVehicle.text = selectedVehicleName ?: "Select Vehicle"
+        view.findViewById<View>(R.id.layoutVehiclePicker).setOnClickListener {
+            showVehicleSelectionBottomSheet(tvVehicle)
+        }
+        tvCategory.text = type.replaceFirstChar { it.uppercase() }
+        when (type) {
+            "fuel" -> {
+                imgCategory.setImageResource(R.drawable.ic_fuel)
+                iconBg.setBackgroundResource(R.drawable.bg_expense_icon_fuel)
             }
-            .setNegativeButton("Cancel", null)
-            .show()
+            "service" -> {
+                imgCategory.setImageResource(R.drawable.ic_service)
+                iconBg.setBackgroundResource(R.drawable.bg_service)
+            }
+            "oil" -> {
+                imgCategory.setImageResource(R.drawable.ic_oil)
+                iconBg.setBackgroundResource(R.drawable.bg_oil)
+            }
+            "tyre" -> {
+                imgCategory.setImageResource(R.drawable.ic_tyre)
+                iconBg.setBackgroundResource(R.drawable.bg_service)
+            }
+            "insurance" -> {
+                imgCategory.setImageResource(R.drawable.ic_insurance)
+                iconBg.setBackgroundResource(R.drawable.bg_pill_down)
+            }
+            else -> {
+                imgCategory.setImageResource(R.drawable.ic_add)
+                iconBg.setBackgroundResource(R.drawable.bg_glass_card)
+            }
+        }
+
+        // ---------------- DATE DEFAULT ---------------- //
+        var selectedDate = System.currentTimeMillis()
+        tvDate.text = formatDate(selectedDate)
+
+        // DATE PICKER
+        view.findViewById<View>(R.id.layoutDatePicker).setOnClickListener {
+
+            val cal = java.util.Calendar.getInstance()
+
+            val dp = android.app.DatePickerDialog(
+                requireContext(),
+                { _, year, month, day ->
+                    val c = java.util.Calendar.getInstance()
+                    c.set(year, month, day)
+                    selectedDate = c.timeInMillis
+                    tvDate.text = formatDate(selectedDate)
+                },
+                cal.get(java.util.Calendar.YEAR),
+                cal.get(java.util.Calendar.MONTH),
+                cal.get(java.util.Calendar.DAY_OF_MONTH)
+            )
+
+            dp.show()
+        }
+
+        // CLOSE
+        btnClose.setOnClickListener { dialog.dismiss() }
+
+        // ---------------- SAVE ---------------- //
+        btnSave.setOnClickListener {
+
+            val amount = etAmount.text.toString().toDoubleOrNull()
+            val note = etNote.text.toString()
+
+            if (amount != null && selectedVehicleId != null) {
+
+                val request = VehicleExpenseRequest(
+                    vehicle_id = selectedVehicleId!!,
+                    type = type,
+                    amount = amount,
+                    date = selectedDate,
+                    note = note
+                )
+
+                viewModel.addExpense(request)
+                dialog.dismiss()
+
+            } else {
+                Toast.makeText(context, "Enter valid amount", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -383,5 +453,36 @@ class VehicleFragment : Fragment() {
             dialog.dismiss()
 
         }
+    }
+    private fun formatDate(time: Long): String {
+        val sdf = java.text.SimpleDateFormat("dd MMM yyyy", java.util.Locale.getDefault())
+        return sdf.format(java.util.Date(time))
+    }
+    private fun showVehicleSelectionBottomSheet(tvVehicle: TextView) {
+
+        val dialog = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.dialog_select_vehicle_list, null)
+
+        dialog.setContentView(view)
+        dialog.show()
+
+        val recycler = view.findViewById<RecyclerView>(R.id.rvVehicleSelect)
+
+        val vehicles = viewModel.vehicleState.value?.getOrNull() ?: return
+
+        val adapter = VehicleSelectAdapter(
+            vehicles,
+            selectedVehicleId
+        ) { selected ->
+
+            selectedVehicleId = selected.id
+            selectedVehicleName = "${selected.company} ${selected.model}"
+            tvVehicle.text = selectedVehicleName
+
+            dialog.dismiss()
+        }
+
+        recycler.layoutManager = LinearLayoutManager(requireContext())
+        recycler.adapter = adapter
     }
 }
