@@ -22,6 +22,10 @@ import com.example.spendly.R
 import com.example.spendly.databinding.FragmentVehicleBinding
 import Util.vehicleAdapter.addVehicleAdapter
 import android.widget.ImageView
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import viewModel.Vehicle.VehicleExpViewModel
 import viewModel.Vehicle.VehicleExpViewModelFact
 import viewModel.Vehicle.VehicleViewModel
@@ -36,7 +40,7 @@ class VehicleFragment : Fragment() {
     private var selectedVehicleName: String? = null
     private lateinit var adapter: addVehicleAdapter
     private lateinit var vehicleViewModel: VehicleViewModel
-
+    private var isYearly = false
     private var selectedVehicleId: String? = null
 
 
@@ -58,6 +62,14 @@ class VehicleFragment : Fragment() {
         setupClicks()
         observeViewModel()
 
+        binding.togglebtn.setOnClickListener {
+            isYearly = !isYearly
+            binding.togglebtn.text = if (isYearly) "Yearly" else "Monthly"
+            selectedVehicleId?.let {
+                viewModel.getChart(it, isYearly)
+            }
+        }
+
 
         viewModel.getVehicles()
         vehicleViewModel.getVehicles()
@@ -77,6 +89,9 @@ class VehicleFragment : Fragment() {
                 selectedVehicleId = vehicle.id
                 selectedVehicleName = "${vehicle.company} ${vehicle.model}"
                 viewModel.getStats(vehicle.id)
+                selectedVehicleId?.let {
+                    viewModel.getChart(it, isYearly)
+                }
             },
             onAddVehicleClick = {
                 Log.d("ADD_CLICK", "Add clicked")
@@ -145,6 +160,9 @@ class VehicleFragment : Fragment() {
                 if (vehicles.isNotEmpty()) {
                     selectedVehicleId = vehicles[0].id
                     viewModel.getStats(selectedVehicleId!!)
+                }
+                selectedVehicleId?.let {
+                    viewModel.getChart(it, isYearly)
                 }
             }
 
@@ -237,7 +255,6 @@ class VehicleFragment : Fragment() {
                 Toast.makeText(context, "Stats failed", Toast.LENGTH_SHORT).show()
             }
         }
-
         // EXPENSE RESPONSE
         viewModel.expenseState.observe(viewLifecycleOwner) { result ->
 
@@ -246,11 +263,21 @@ class VehicleFragment : Fragment() {
 
                 Toast.makeText(context, "Expense Added", Toast.LENGTH_SHORT).show()
                 selectedVehicleId?.let { viewModel.getStats(it) }
+                selectedVehicleId?.let {
+                    viewModel.getChart(it, isYearly)
+                }
             }
 
             result.onFailure {
                 Log.e("ERROR", it.message ?: "Unknown error")
                 Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.chartState.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                setupChart(it)
+            }.onFailure {
+                binding.chartContainer.removeAllViews()
             }
         }
     }
@@ -484,5 +511,57 @@ class VehicleFragment : Fragment() {
 
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter
+    }
+    private fun setupChart(data: Map<String, Double>) {
+
+        val container = binding.chartContainer
+        container.removeAllViews()
+
+        if (data.isEmpty()) {
+            val tv = TextView(requireContext())
+            tv.text = "No expenses yet"
+            tv.setTextColor(Color.GRAY)
+            container.addView(tv)
+            return
+        }
+
+        val maxAmount = data.values.maxOrNull() ?: 1.0
+
+        data.forEach { (type, amount) ->
+
+            val view = layoutInflater.inflate(R.layout.item_expense_chart, container, false)
+
+            val tvLabel = view.findViewById<TextView>(R.id.tvChartLabel)
+            val tvAmount = view.findViewById<TextView>(R.id.tvChartAmount)
+            val bar = view.findViewById<View>(R.id.viewBar)
+
+            tvLabel.text = type.replaceFirstChar { it.uppercase() }
+            tvAmount.text = "₹${amount.toInt()}"
+
+            val percentage = amount / maxAmount
+
+            bar.post {
+                val fullWidth = container.width
+                val newWidth = (fullWidth * percentage).toInt()
+
+                val params = bar.layoutParams
+                params.width = newWidth
+                bar.layoutParams = params
+            }
+
+            when (type) {
+                "fuel" -> bar.setBackgroundResource(R.drawable.bg_chart_bar_fuel)
+                "oil" -> bar.setBackgroundResource(R.drawable.bg_chartbar_oil)
+                "brake"->bar.setBackgroundResource(R.drawable.bg_chartbar_brake)
+                "gear"->bar.setBackgroundResource(R.drawable.bg_chartbar_gear)
+                "service" -> bar.setBackgroundResource(R.drawable.bg_chartbar_service)
+                "tyre" -> bar.setBackgroundResource(R.drawable.bg_chartbar_tyre)
+                "accessories"->bar.setBackgroundResource(R.drawable.bg_chartbar_accessory)
+                "insurance" -> bar.setBackgroundResource(R.drawable.bg_chartbar_insurance)
+                else -> bar.setBackgroundResource(R.drawable.bg_chartbar_others)
+            }
+
+            container.addView(view)
+        }
     }
 }

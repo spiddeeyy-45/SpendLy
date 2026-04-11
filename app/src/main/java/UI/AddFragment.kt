@@ -1,8 +1,10 @@
 package UI
 
 import Model.Add.ExpenseRequest
+import Model.Add.ExpenseStats
 import Repository.Add.ExpenseRepo
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,6 +30,7 @@ class AddFragment : Fragment() {
 
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
+    private var isYearly = false
 
     private lateinit var viewModel: ExpenseViewModel
 
@@ -43,8 +46,13 @@ class AddFragment : Fragment() {
         setupViewModel()
         setupClicks()
         observeVM()
-
+        binding.togglebtn.setOnClickListener {
+            isYearly = !isYearly
+            binding.togglebtn.text = if (isYearly) "Yearly" else "Monthly"
+            viewModel.getChart(isYearly)
+        }
         viewModel.getStats()
+        viewModel.getChart(isYearly)
     }
 
     private fun setupViewModel() {
@@ -162,46 +170,139 @@ class AddFragment : Fragment() {
         }
     }
     private fun observeVM() {
-
         viewModel.expenseState.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 Toast.makeText(context, "Expense Added", Toast.LENGTH_SHORT).show()
                 viewModel.getStats()
+                viewModel.getChart(isYearly)
+
             }
 
             result.onFailure {
                 Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             }
         }
-
         viewModel.statsState.observe(viewLifecycleOwner) { result ->
-
             result.onSuccess { stats ->
-
                 // TOTAL
-                binding.cardTotalSpend
-                    .findViewById<TextView>(R.id.tvStatValue)
-                    .text = "₹${stats.total.toInt()}"
+                binding.cardTotalSpend.findViewById<TextView>(R.id.tvStatValue).text = "₹${stats.total.toInt()}"
+                val Trend=binding.cardTotalSpend.findViewById<TextView>(R.id.tvStatTrend)
+                if (stats.total > stats.totalLastMonth) {
+                    Trend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
+                    Trend.text = "↑ vs last month"
+                    Trend.setTextColor(Color.parseColor("#EF4444"))
+                } else {
+                    Trend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
+                    Trend.text = "↓ vs last month"
+                    Trend.setTextColor(Color.parseColor("#34D399"))
+                }
 
                 // GROCERY
-                binding.cardGrocerySpend
-                    .findViewById<TextView>(R.id.tvStatValue)
-                    .text = "₹${stats.grocery.toInt()}"
+                binding.cardGrocerySpend.findViewById<TextView>(R.id.tvStatValue).text = "₹${stats.grocery.toInt()}"
+                val groceryTrend=binding.cardGrocerySpend.findViewById<TextView>(R.id.tvStatTrend)
+                if (stats.groceryToday > 0) {
+                    groceryTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
+                    groceryTrend.text = "↑ Today ₹${stats.groceryToday.toInt()}"
+                    groceryTrend.setTextColor(Color.parseColor("#EF4444"))
+                } else {
+                    groceryTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
+                    groceryTrend.text = "No expense today"
+                    groceryTrend.setTextColor(Color.parseColor("#34D399"))
+                }
 
                 // SHOPPING
-                binding.cardShoppingSpend
-                    .findViewById<TextView>(R.id.tvStatValue)
-                    .text = "₹${stats.shopping.toInt()}"
+                binding.cardShoppingSpend.findViewById<TextView>(R.id.tvStatValue).text = "₹${stats.shopping.toInt()}"
+                val shoppingTrend=binding.cardShoppingSpend.findViewById<TextView>(R.id.tvStatTrend)
+                if (stats.shopping > stats.shoppingLastMonth) {
+                    shoppingTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
+                    shoppingTrend.text = "↑ vs last month"
+                    shoppingTrend.setTextColor(Color.parseColor("#EF4444"))
+                } else {
+                    shoppingTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
+                    shoppingTrend.text = "↓ vs last month"
+                    shoppingTrend.setTextColor(Color.parseColor("#34D399"))
+                }
+
 
                 // FOOD
-                binding.cardAvgSpend
-                    .findViewById<TextView>(R.id.tvStatValue)
-                    .text = "₹${stats.food.toInt()}"
+                binding.cardFoodSpend.findViewById<TextView>(R.id.tvStatValue).text = "₹${stats.food.toInt()}"
+                val foodTrend=binding.cardFoodSpend.findViewById<TextView>(R.id.tvStatTrend)
+                if (stats.food > stats.foodLastMonth) {
+                    foodTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
+                    foodTrend.text = "↑ vs last month"
+                    foodTrend.setTextColor(Color.parseColor("#EF4444"))
+                } else {
+                    foodTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
+                    foodTrend.text = "↓ vs last month"
+                    foodTrend.setTextColor(Color.parseColor("#34D399"))
+                }
             }
+        }
+        viewModel.chartState.observe(viewLifecycleOwner){ result ->
+            result.onSuccess {
+                setupChart(it)
+            }
+            result.onFailure {
+                binding.chartContainer.removeAllViews()
+            }
+
         }
     }
     private fun formatDate(time: Long): String {
         val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         return sdf.format(Date(time))
+    }
+    private fun setupChart(data: Map<String, Double>) {
+
+        val container = binding.chartContainer
+        container.removeAllViews()
+
+        if (data.isEmpty()) {
+            val tv = TextView(requireContext())
+            tv.text = "No expenses yet"
+            tv.setTextColor(Color.GRAY)
+            container.addView(tv)
+            return
+        }
+
+        val maxAmount = data.values.maxOrNull() ?: 1.0
+
+        data.forEach { (type, amount) ->
+
+            val view = layoutInflater.inflate(R.layout.item_expense_chart, container, false)
+
+            val tvLabel = view.findViewById<TextView>(R.id.tvChartLabel)
+            val tvAmount = view.findViewById<TextView>(R.id.tvChartAmount)
+            val bar = view.findViewById<View>(R.id.viewBar)
+
+            tvLabel.text = type.replaceFirstChar { it.uppercase() }
+            tvAmount.text = "₹${amount.toInt()}"
+
+            val percentage = amount / maxAmount
+
+            bar.post {
+                bar.scaleX = 0f
+                bar.animate().scaleX(1f).setDuration(600).start()
+                val fullWidth = container.width
+                val newWidth = (fullWidth * percentage).toInt()
+
+                val params = bar.layoutParams
+                params.width = newWidth
+                bar.layoutParams = params
+            }
+
+            when (type) {
+                "food" -> bar.setBackgroundResource(R.drawable.bg_chart_bar_fuel)
+                "grocery" -> bar.setBackgroundResource(R.drawable.bg_chartbar_oil)
+                "medical"->bar.setBackgroundResource(R.drawable.bg_chartbar_brake)
+                "shopping"->bar.setBackgroundResource(R.drawable.bg_chartbar_gear)
+                "trip" -> bar.setBackgroundResource(R.drawable.bg_chartbar_service)
+                "stocks" -> bar.setBackgroundResource(R.drawable.bg_chartbar_tyre)
+                "subscription" -> bar.setBackgroundResource(R.drawable.bg_chartbar_insurance)
+                else -> bar.setBackgroundResource(R.drawable.bg_chartbar_others)
+            }
+
+            container.addView(view)
+        }
     }
 }

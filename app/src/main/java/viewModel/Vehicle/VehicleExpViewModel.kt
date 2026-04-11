@@ -14,6 +14,7 @@ class VehicleExpViewModel(private val repo: VehicleExpRepo) : ViewModel() {
     val expenseState = MutableLiveData<Result<Unit>>()
     val vehicleState = MutableLiveData<Result<List<Vehicle>>>()
     val statsState = MutableLiveData<Result<Stats>>()
+    val chartState = MutableLiveData<Result<Map<String, Double>>>()
 
     fun addExpense(request: VehicleExpenseRequest) {
 
@@ -52,6 +53,16 @@ class VehicleExpViewModel(private val repo: VehicleExpRepo) : ViewModel() {
                 statsState.value = result
             } catch (e: Exception) {
                 statsState.value = Result.failure(e)
+            }
+        }
+    }
+    fun getChart(vehicleId: String, isYearly: Boolean) {
+        viewModelScope.launch {
+            try {
+                val result = repo.getExpenseChartData(vehicleId, isYearly)
+                chartState.value = result
+            } catch (e: Exception) {
+                chartState.value = Result.failure(e)
             }
         }
     }

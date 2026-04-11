@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 class ExpenseViewModel(private val repo:ExpenseRepo) :ViewModel(){
     val expenseState = MutableLiveData<Result<Unit>>()
     val statsState = MutableLiveData<Result<ExpenseStats>>()
+    val chartState = MutableLiveData<Result<Map<String, Double>>>()
     fun addExpense(request: ExpenseRequest) {
 
         if (request.amount <= 0) {
@@ -34,11 +35,20 @@ class ExpenseViewModel(private val repo:ExpenseRepo) :ViewModel(){
             try {
                 val result = repo.getStats()
                 statsState.value = result
-                if (result.isSuccess) {
-                    getStats()
-                }
             } catch (e: Exception) {
                 statsState.value = Result.failure(e)
+            }
+        }
+    }
+
+
+    fun getChart(isYearly: Boolean) {
+        viewModelScope.launch {
+            try {
+                val result = repo.getExpenseChartData(isYearly)
+                chartState.value = result
+            } catch (e: Exception) {
+                chartState.value = Result.failure(e)
             }
         }
     }

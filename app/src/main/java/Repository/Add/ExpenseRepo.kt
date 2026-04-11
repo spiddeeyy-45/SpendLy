@@ -21,18 +21,6 @@ class ExpenseRepo {
                 "note" to request.note,
                 "createdAt" to request.date
             )
-            val userRef=firestore.collection("Users").document(uid)
-            firestore.runTransaction { transaction ->
-                val expenseRef=userRef.collection("Expenses")
-                    .document(expenseId)
-                val snapshot=transaction.get(expenseRef)
-                val curTotal=snapshot.getDouble("total_this_month")?:0.0
-                transaction.set(expenseRef,expense)
-                transaction.update(
-                    expenseRef,"total_this_month",curTotal+request.amount
-                )
-            }.await()
-
             Result.success(Unit)
 
         }catch (e:Exception)
@@ -149,6 +137,52 @@ class ExpenseRepo {
             )
 
             Result.success(stats)
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    suspend fun getExpenseChartData(isYearly: Boolean): Result<Map<String, Double>> {
+
+        return try {
+            val uid = auth.currentUser?.uid
+                ?: return Result.failure(Exception("User not logged in"))
+
+            val calendar = Calendar.getInstance()
+
+            val startTime = if (isYearly) {
+                calendar.apply {
+                    set(Calendar.MONTH, 0)
+                    set(Calendar.DAY_OF_MONTH, 1)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                }.timeInMillis
+            } else {
+                calendar.apply {
+                    set(Calendar.DAY_OF_MONTH, 1)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                }.timeInMillis
+            }
+
+            val snapshot = firestore.collection("Users")
+                .document(uid)
+                .collection("Expenses")
+                .get()
+                .await()
+
+            val resultMap = mutableMapOf<String, Double>()
+
+            for (doc in snapshot.documents) {
+
+                val type = doc.getString("type") ?: continue
+                val amount = doc.getDouble("amount") ?: 0.0
+                val createdAt = doc.getLong("createdAt") ?: 0L
+
+                if (createdAt >= startTime) {
+                    resultMap[type] = (resultMap[type] ?: 0.0) + amount
+                }
+            }
+
+            Result.success(resultMap)
 
         } catch (e: Exception) {
             Result.failure(e)

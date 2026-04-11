@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="16dp">
+
+    <!-- Label row: category name + amount -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvChartLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Fuel"
+            android:textColor="#B4B9DC"
+            android:textSize="13sp"
+            android:fontFamily="@font/syne_bold"/>
+
+        <TextView
+            android:id="@+id/tvChartAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹6,200"
+            android:textColor="#EEF0FF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/syne_bold"/>
+
+    </LinearLayout>
+
+    <!-- Progress track -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_chart_track">
+
+        <!-- Filled bar -->
+        <View
+            android:id="@+id/viewBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_chart_bar_fuel"/>
+
+    </FrameLayout>
+
+</LinearLayout>
