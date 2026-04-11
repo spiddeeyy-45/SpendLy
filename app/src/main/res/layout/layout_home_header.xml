@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -33,15 +34,12 @@
     </LinearLayout>
 
     <!-- Avatar -->
-    <TextView
-        android:id="@+id/tvAvatar"
+    <ImageView
+        android:id="@+id/ivProfile"
         android:layout_width="42dp"
+        android:scaleType="centerCrop"
         android:layout_height="42dp"
-        android:text="🧑"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:background="@drawable/bg_avatar"
-        android:clickable="true"
-        android:focusable="true" />
+        android:background="@drawable/bg_avatar"/>
 
 </LinearLayout>
+</layout>

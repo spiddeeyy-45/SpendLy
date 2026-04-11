@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#07071A"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="UI.HomeFragment">
@@ -38,21 +39,24 @@
 
 <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true"
     android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="90dp">
+        android:orientation="vertical">
 
         <!-- ===== HEADER ===== -->
-        <include layout="@layout/layout_home_header" />
+        <include
+            android:id="@+id/headerLayout"
+            layout="@layout/layout_home_header" />
 
         <!-- ===== TOTAL CARD ===== -->
-        <include layout="@layout/layout_total_spend" />
+        <include
+            android:id="@+id/totalLayout"
+            layout="@layout/layout_total_spend" />
 
         <!-- ===== CATEGORY HEADER ===== -->
         <LinearLayout
@@ -204,7 +208,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTransactions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="420dp"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:overScrollMode="never"
@@ -229,3 +233,4 @@
         app:strokeColor="#30C4A882"
         app:strokeWidth="1dp"/>
 </FrameLayout>
+</layout>

@@ -184,57 +184,81 @@ class AddFragment : Fragment() {
         }
         viewModel.statsState.observe(viewLifecycleOwner) { result ->
             result.onSuccess { stats ->
-                // TOTAL
-                binding.cardTotalSpend.findViewById<TextView>(R.id.tvStatValue).text = "₹${stats.total.toInt()}"
-                val Trend=binding.cardTotalSpend.findViewById<TextView>(R.id.tvStatTrend)
-                if (stats.total > stats.totalLastMonth) {
-                    Trend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
-                    Trend.text = "↑ vs last month"
-                    Trend.setTextColor(Color.parseColor("#EF4444"))
+
+                // ---------- TOTAL ----------
+                binding.cardTotalSpend.findViewById<TextView>(R.id.tvStatValue).text =
+                    "₹${stats.total.toInt()}"
+
+                val totalTrend = binding.cardTotalSpend.findViewById<TextView>(R.id.tvStatTrend)
+                val totalDiff = stats.total - stats.totalLastMonth
+
+                if (totalDiff > 0) {
+                    totalTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
+                    totalTrend.text = "↑ ₹${totalDiff.toInt()} vs last month"
+                    totalTrend.setTextColor(Color.parseColor("#EF4444")) // red
+                } else if (totalDiff < 0) {
+                    totalTrend.background = resources.getDrawable(R.drawable.bg_pill_up, null)
+                    totalTrend.text = "↓ ₹${kotlin.math.abs(totalDiff).toInt()} vs last month"
+                    totalTrend.setTextColor(Color.parseColor("#34D399")) // green
                 } else {
-                    Trend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
-                    Trend.text = "↓ vs last month"
-                    Trend.setTextColor(Color.parseColor("#34D399"))
+                    totalTrend.text = "No change"
                 }
 
-                // GROCERY
-                binding.cardGrocerySpend.findViewById<TextView>(R.id.tvStatValue).text = "₹${stats.grocery.toInt()}"
-                val groceryTrend=binding.cardGrocerySpend.findViewById<TextView>(R.id.tvStatTrend)
-                if (stats.groceryToday > 0) {
-                    groceryTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
-                    groceryTrend.text = "↑ Today ₹${stats.groceryToday.toInt()}"
+                // ---------- GROCERY ----------
+                binding.cardGrocerySpend.findViewById<TextView>(R.id.tvStatValue).text =
+                    "₹${stats.grocery.toInt()}"
+
+                val groceryTrend = binding.cardGrocerySpend.findViewById<TextView>(R.id.tvStatTrend)
+                val groceryDiff = stats.grocery - stats.groceryLastMonth
+
+                if (groceryDiff > 0) {
+                    groceryTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
+                    groceryTrend.text = "↑ ₹${groceryDiff.toInt()} vs last month"
                     groceryTrend.setTextColor(Color.parseColor("#EF4444"))
-                } else {
-                    groceryTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
-                    groceryTrend.text = "No expense today"
+                } else if (groceryDiff < 0) {
+                    groceryTrend.background = resources.getDrawable(R.drawable.bg_pill_up, null)
+                    groceryTrend.text = "↓ ₹${kotlin.math.abs(groceryDiff).toInt()} vs last month"
                     groceryTrend.setTextColor(Color.parseColor("#34D399"))
+                } else {
+                    groceryTrend.text = "No change"
                 }
 
-                // SHOPPING
-                binding.cardShoppingSpend.findViewById<TextView>(R.id.tvStatValue).text = "₹${stats.shopping.toInt()}"
-                val shoppingTrend=binding.cardShoppingSpend.findViewById<TextView>(R.id.tvStatTrend)
-                if (stats.shopping > stats.shoppingLastMonth) {
-                    shoppingTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
-                    shoppingTrend.text = "↑ vs last month"
+                // ---------- SHOPPING ----------
+                binding.cardShoppingSpend.findViewById<TextView>(R.id.tvStatValue).text =
+                    "₹${stats.shopping.toInt()}"
+
+                val shoppingTrend = binding.cardShoppingSpend.findViewById<TextView>(R.id.tvStatTrend)
+                val shoppingDiff = stats.shopping - stats.shoppingLastMonth
+
+                if (shoppingDiff > 0) {
+                    shoppingTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
+                    shoppingTrend.text = "↑ ₹${shoppingDiff.toInt()} vs last month"
                     shoppingTrend.setTextColor(Color.parseColor("#EF4444"))
-                } else {
-                    shoppingTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
-                    shoppingTrend.text = "↓ vs last month"
+                } else if (shoppingDiff < 0) {
+                    shoppingTrend.background = resources.getDrawable(R.drawable.bg_pill_up, null)
+                    shoppingTrend.text = "↓ ₹${kotlin.math.abs(shoppingDiff).toInt()} vs last month"
                     shoppingTrend.setTextColor(Color.parseColor("#34D399"))
+                } else {
+                    shoppingTrend.text = "No change"
                 }
 
+                // ---------- FOOD ----------
+                binding.cardFoodSpend.findViewById<TextView>(R.id.tvStatValue).text =
+                    "₹${stats.food.toInt()}"
 
-                // FOOD
-                binding.cardFoodSpend.findViewById<TextView>(R.id.tvStatValue).text = "₹${stats.food.toInt()}"
-                val foodTrend=binding.cardFoodSpend.findViewById<TextView>(R.id.tvStatTrend)
-                if (stats.food > stats.foodLastMonth) {
-                    foodTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
-                    foodTrend.text = "↑ vs last month"
+                val foodTrend = binding.cardFoodSpend.findViewById<TextView>(R.id.tvStatTrend)
+                val foodDiff = stats.food - stats.foodLastMonth
+
+                if (foodDiff > 0) {
+                    foodTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
+                    foodTrend.text = "↑ ₹${foodDiff.toInt()} vs last month"
                     foodTrend.setTextColor(Color.parseColor("#EF4444"))
-                } else {
-                    foodTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
-                    foodTrend.text = "↓ vs last month"
+                } else if (foodDiff < 0) {
+                    foodTrend.background = resources.getDrawable(R.drawable.bg_pill_up, null)
+                    foodTrend.text = "↓ ₹${kotlin.math.abs(foodDiff).toInt()} vs last month"
                     foodTrend.setTextColor(Color.parseColor("#34D399"))
+                } else {
+                    foodTrend.text = "No change"
                 }
             }
         }

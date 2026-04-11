@@ -28,13 +28,13 @@
             android:id="@+id/tvStatValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="₹3,200"
+            android:text="0.0"
             android:textColor="#EEF0FF"
             android:textSize="22sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tvStatLastDate"
+            android:id="@+id/tvStatTrend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"

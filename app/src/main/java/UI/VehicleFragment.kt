@@ -173,7 +173,8 @@ class VehicleFragment : Fragment() {
         viewModel.statsState.observe(viewLifecycleOwner) { result ->
 
             result.onSuccess { stats ->
-                selectedVehicleId?.let { adapter.updateVehicleAmount(it,stats.total) }
+
+                selectedVehicleId?.let { adapter.updateVehicleAmount(it, stats.total) }
 
                 // ================= TOTAL =================
                 val totalCard = binding.cardTotalSpend
@@ -183,14 +184,18 @@ class VehicleFragment : Fragment() {
 
                 val totalTrend = totalCard.findViewById<TextView>(R.id.tvStatTrend)
 
-                if (stats.total > stats.totalLastMonth) {
+                val totalDiff = stats.total - stats.totalLastMonth
+
+                if (totalDiff > 0) {
                     totalTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
-                    totalTrend.text = "↑ vs last month"
+                    totalTrend.text = "↑ ₹${totalDiff.toInt()} more"
                     totalTrend.setTextColor(Color.parseColor("#EF4444"))
-                } else {
-                    totalTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
-                    totalTrend.text = "↓ vs last month"
+                } else if (totalDiff < 0) {
+                    totalTrend.background = resources.getDrawable(R.drawable.bg_pill_up, null)
+                    totalTrend.text = "↓ ₹${kotlin.math.abs(totalDiff).toInt()} less"
                     totalTrend.setTextColor(Color.parseColor("#34D399"))
+                } else {
+                    totalTrend.text = "No change"
                 }
 
 
@@ -200,16 +205,20 @@ class VehicleFragment : Fragment() {
                 fuelCard.findViewById<TextView>(R.id.tvStatValue)
                     .text = "₹${stats.fuel.toInt()}"
 
-                val fuelTrend = fuelCard.findViewById<TextView>(R.id.tvStatMonth)
+                val fuelTrend = fuelCard.findViewById<TextView>(R.id.tvStatMonth) // keep your ID
 
-                if (stats.fuelToday > 0) {
-                    fuelTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
-                    fuelTrend.text = "↑ Today ₹${stats.fuelToday.toInt()}"
+                val fuelDiff = stats.fuel - stats.fuelLastMonth
+
+                if (fuelDiff > 0) {
+                    fuelTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
+                    fuelTrend.text = "↑ ₹${fuelDiff.toInt()} more"
                     fuelTrend.setTextColor(Color.parseColor("#EF4444"))
-                } else {
-                    fuelTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
-                    fuelTrend.text = "No expense today"
+                } else if (fuelDiff < 0) {
+                    fuelTrend.background = resources.getDrawable(R.drawable.bg_pill_up, null)
+                    fuelTrend.text = "↓ ₹${kotlin.math.abs(fuelDiff).toInt()} less"
                     fuelTrend.setTextColor(Color.parseColor("#34D399"))
+                } else {
+                    fuelTrend.text = "No change"
                 }
 
 
@@ -219,16 +228,20 @@ class VehicleFragment : Fragment() {
                 serviceCard.findViewById<TextView>(R.id.tvStatValue)
                     .text = "₹${stats.service.toInt()}"
 
-                val serviceTrend = serviceCard.findViewById<TextView>(R.id.tvStatLastDate)
+                val serviceTrend = serviceCard.findViewById<TextView>(R.id.tvStatLastDate) // keep your ID
 
-                if (stats.service > stats.serviceLastMonth) {
-                    serviceTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
-                    serviceTrend.text = "↑ vs last month"
+                val serviceDiff = stats.service - stats.serviceLastMonth
+
+                if (serviceDiff > 0) {
+                    serviceTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
+                    serviceTrend.text = "↑ ₹${serviceDiff.toInt()} more"
                     serviceTrend.setTextColor(Color.parseColor("#EF4444"))
-                } else {
-                    serviceTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
-                    serviceTrend.text = "↓ vs last month"
+                } else if (serviceDiff < 0) {
+                    serviceTrend.background = resources.getDrawable(R.drawable.bg_pill_up, null)
+                    serviceTrend.text = "↓ ₹${kotlin.math.abs(serviceDiff).toInt()} less"
                     serviceTrend.setTextColor(Color.parseColor("#34D399"))
+                } else {
+                    serviceTrend.text = "No change"
                 }
 
 
@@ -240,15 +253,19 @@ class VehicleFragment : Fragment() {
 
                 val avgTrend = avgCard.findViewById<TextView>(R.id.tvStatTrend)
 
-                if (stats.avgPerDay > 500) {
-                    avgTrend.background=resources.getDrawable(R.drawable.bg_pill_down, null)
-                    avgTrend.text = "↑ High spending"
+                val expectedAvg = stats.totalLastMonth / 30
+                val avgDiff = stats.avgPerDay - expectedAvg
+
+                if (avgDiff > 0) {
+                    avgTrend.background = resources.getDrawable(R.drawable.bg_pill_down, null)
+                    avgTrend.text = "↑ Spending more than usual"
                     avgTrend.setTextColor(Color.parseColor("#EF4444"))
                 } else {
-                    avgTrend.background=resources.getDrawable(R.drawable.bg_pill_up, null)
+                    avgTrend.background = resources.getDrawable(R.drawable.bg_pill_up, null)
                     avgTrend.text = "↓ Under control"
                     avgTrend.setTextColor(Color.parseColor("#34D399"))
                 }
+
             }
 
             result.onFailure {

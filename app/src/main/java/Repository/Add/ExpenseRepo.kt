@@ -21,6 +21,12 @@ class ExpenseRepo {
                 "note" to request.note,
                 "createdAt" to request.date
             )
+            firestore.collection("Users")
+                .document(uid)
+                .collection("Expenses")
+                .document(expenseId)
+                .set(expense)
+                .await()
             Result.success(Unit)
 
         }catch (e:Exception)
@@ -84,7 +90,7 @@ class ExpenseRepo {
             for (doc in snapshot.documents) {
 
                 val amount = doc.getDouble("amount") ?: 0.0
-                val type = doc.getString("type") ?: ""
+                val type = doc.getString("type") ?.lowercase()?.trim()?:""
                 val createdAt = doc.getLong("createdAt") ?: 0L
 
                 // THIS MONTH
@@ -94,7 +100,7 @@ class ExpenseRepo {
                     when (type) {
                         "food" -> food += amount
                         "shopping" -> shopping += amount
-                        "grocery"->grocery += amount
+                        "grocery" -> grocery += amount
                     }
                 }
 
@@ -105,7 +111,7 @@ class ExpenseRepo {
                     when (type) {
                         "food" -> foodLastMonth += amount
                         "shopping" -> shoppingLastMonth += amount
-                        "grocery"->groceryLastMonth += amount
+                        "grocery" -> groceryLastMonth += amount
                     }
                 }
 
@@ -114,7 +120,7 @@ class ExpenseRepo {
                     when (type) {
                         "food" -> foodToday += amount
                         "shopping" -> shoppingToday += amount
-                        "grocery"->groceryToday += amount
+                        "grocery" -> groceryToday += amount
                     }
                 }
             }
@@ -173,7 +179,7 @@ class ExpenseRepo {
 
             for (doc in snapshot.documents) {
 
-                val type = doc.getString("type") ?: continue
+                val type = doc.getString("type") ?.lowercase()?.trim()?: continue
                 val amount = doc.getDouble("amount") ?: 0.0
                 val createdAt = doc.getLong("createdAt") ?: 0L
 

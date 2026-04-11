@@ -311,11 +311,6 @@
 
                         </LinearLayout>
 
-                        <!--
-                            CUSTOM CHART CONTAINER
-                            setupChart() inflates item_expense_chart_row.xml into here dynamically.
-                            DO NOT add children manually — they are added from code.
-                        -->
                         <LinearLayout
                             android:id="@+id/chartContainer"
                             android:layout_width="match_parent"

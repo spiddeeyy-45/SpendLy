@@ -6,10 +6,10 @@ data class VehicleExpenseResponse(
 )
 
 data class Expense(
-    val id: String,
-    val vehicle_id: String,
-    val type: String,
-    val note:String,
-    val date:Long,
-    val amount: Double
+    val id: String ="",
+    val vehicle_id: String="",
+    val type: String = "",
+    val note:String = "",
+    val date:Long = 0L,
+    val amount: Double =0.0
 )
