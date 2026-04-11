@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_sheet">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_dialog_glass">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="16dp">
+                    <View
+                        android:layout_width="40dp"
+                        android:layout_height="4dp"
+                        android:background="@drawable/bg_drag_handle"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="20dp"/>
+                    <!-- Title row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <FrameLayout
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/bg_setting_default"
+                            android:layout_marginEnd="12dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_policy"/>
+
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Privacy Policy"
+                                android:textColor="#EEF0FF"
+                                android:textSize="18sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Last updated: April 2026"
+                                android:textColor="#60B4B9DC"
+                                android:textSize="11sp"
+                                android:layout_marginTop="2dp"/>
+
+                        </LinearLayout>
+
+                        <!-- Close -->
+                        <FrameLayout
+                            android:id="@+id/btnClose"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_close_btn"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <View
+                                android:layout_width="14dp"
+                                android:layout_height="2dp"
+                                android:layout_gravity="center"
+                                android:rotation="45"
+                                android:background="#80B4B9DC"/>
+
+                            <View
+                                android:layout_width="14dp"
+                                android:layout_height="2dp"
+                                android:layout_gravity="center"
+                                android:rotation="-45"
+                                android:background="#80B4B9DC"/>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0DFFFFFF"/>
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="460dp"
+                    android:scrollbars="none"
+                    android:overScrollMode="never"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="32dp"
+                    android:clipToPadding="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Introduction"
+                            android:textColor="#EEF0FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Welcome to Spendly. We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains what information we collect, how we use it, and what rights you have in relation to it."
+                            android:textColor="#80B4B9DC"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.6"
+                            android:layout_marginBottom="20dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Information We Collect"
+                            android:textColor="#EEF0FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="We collect information you provide directly to us when you create an account, including your name, email address, phone number, city, and profile photo. We also collect financial data you enter such as expense records, vehicle details, trip logs, and income figures."
+                            android:textColor="#80B4B9DC"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.6"
+                            android:layout_marginBottom="20dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="How We Use Your Information"
+                            android:textColor="#EEF0FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="We use your data to provide, operate, and improve the Spendly app. This includes generating spending insights, tracking vehicle expenses, calculating savings versus income, and offering AI-powered financial suggestions. We do not sell your data to third parties."
+                            android:textColor="#80B4B9DC"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.6"
+                            android:layout_marginBottom="20dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Data Storage &amp; Security"
+                            android:textColor="#EEF0FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Your data is stored securely on Firebase (Google Cloud) with industry-standard encryption. We use Firebase Authentication for secure login and Firestore for encrypted data storage. Access to your data is restricted to your account only."
+                            android:textColor="#80B4B9DC"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.6"
+                            android:layout_marginBottom="20dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Your Rights"
+                            android:textColor="#EEF0FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="You have the right to access, update, or delete your personal data at any time through the Edit Profile section. You may also request complete account deletion by contacting us. Upon deletion, all your data will be permanently removed from our servers within 30 days."
+                            android:textColor="#80B4B9DC"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.6"
+                            android:layout_marginBottom="20dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Analytics"
+                            android:textColor="#EEF0FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="We may use Firebase Analytics to understand how the app is used in aggregate. This data is anonymised and cannot be used to identify individual users. You can opt out of analytics collection from your device settings."
+                            android:textColor="#80B4B9DC"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.6"
+                            android:layout_marginBottom="20dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Changes to This Policy"
+                            android:textColor="#EEF0FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="We may update this Privacy Policy from time to time. We will notify you of significant changes through the app or via email. Continued use of the app after changes constitutes acceptance of the updated policy."
+                            android:textColor="#80B4B9DC"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.6"
+                            android:layout_marginBottom="20dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Contact Us"
+                            android:textColor="#EEF0FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If you have any questions about this Privacy Policy or your data, please contact us at arbazshaikh78906@icloud.com. We typically respond within 2–3 business days."
+                            android:textColor="#80B4B9DC"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.6"
+                            android:layout_marginBottom="8dp"/>
+
+                    </LinearLayout>
+
+                </ScrollView>
+                <TextView
+                    android:id="@+id/btnGotIt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="Got it"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/bg_btn_primary"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="32dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+    </FrameLayout>
+
+</layout>

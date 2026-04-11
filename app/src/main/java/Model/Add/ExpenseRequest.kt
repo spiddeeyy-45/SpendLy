@@ -4,5 +4,6 @@ data class ExpenseRequest(
     val type:String,
     val amount:Double,
     val note:String,
-    val date:Long
+    val selectedDate:Long,
+    val createdAt: Long? = null
 )

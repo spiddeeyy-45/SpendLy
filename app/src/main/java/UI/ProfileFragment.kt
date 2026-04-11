@@ -2,6 +2,7 @@ package UI
 
 import Model.Profile.CloudinaryClient
 import Model.Profile.UserProfile
+import Repository.Add.ExpenseRepo
 import Repository.Profile.ProfileRepository
 import Repository.Vehicle.VehicleRepository
 import Util.Profile.VehicleAdapter
@@ -30,6 +31,8 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import viewModel.Add.ExpenseViewModel
+import viewModel.Add.ExpenseViewModelFact
 import viewModel.Profile.ProfileViewModel
 import viewModel.Vehicle.VehicleViewModel
 import viewModel.Vehicle.VehicleViewModelFactory
@@ -39,6 +42,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var vehicleViewModel: VehicleViewModel
+    private lateinit var expenseViewModel: ExpenseViewModel
     private lateinit var adapter: VehicleAdapter
     private var dialogImageView: ImageView? = null
     private var dialogAvatarView: TextView? = null
@@ -46,6 +50,8 @@ class ProfileFragment : Fragment() {
     private var currentProfile: UserProfile? = null
 
     private val IMAGE_PICK_CODE = 1001
+    private var dailyTotal = 0.0
+    private var vehicleTotal = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,12 +68,15 @@ class ProfileFragment : Fragment() {
 
         setupVehicleViewModel()
         setupVehicleRecycler()
+        setupModels()
         observeVehicles()
 
         setupObservers()
+        observerTotal()
         setupClicks()
 
         viewModel.loadProfile()
+        expenseViewModel.getStats()
         vehicleViewModel.getVehicles()
         vehicleViewModel.addVehicleState.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -89,6 +98,7 @@ class ProfileFragment : Fragment() {
             result.onSuccess { profile ->
 
                 currentProfile = profile
+                updateTotal()
                 if (profile.isPremium) {
                     binding.tvBadgePlan.text = "Premium"
                     binding.tvBadgePlan.setBackgroundResource(R.drawable.bg_badge_purple)
@@ -99,10 +109,11 @@ class ProfileFragment : Fragment() {
 
                 binding.tvProfileName.text = profile.name
 
-                binding.tvProfileSub.text =
-                    "Member since ${formatDate(profile.createdAt)} · ${profile.location}"
+                binding.tvProfileSub.text ="Member since ${formatDate(profile.createdAt)} · ${profile.location}"
 
                 binding.tvBadgeCity.text = profile.location
+                val months = calculateMonths(profile.createdAt)
+                binding.tvMonths.text = "$months"
 
                 if (profile.profileImage.isNullOrEmpty()) {
                     binding.tvAvatar.visibility = View.VISIBLE
@@ -126,7 +137,6 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             }
         }
-
         viewModel.updateState.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_SHORT).show()
@@ -138,16 +148,50 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+    private fun setupModels(){
+        val expenseRepo = ExpenseRepo()
+        expenseViewModel = ViewModelProvider(this, ExpenseViewModelFact(expenseRepo))[ExpenseViewModel::class.java]
+
+    }
+    private fun observerTotal(){
+        expenseViewModel.statsState.observe(viewLifecycleOwner) {
+            it.onSuccess { stats ->
+                dailyTotal = stats.total
+                updateTotal()
+            }
+        }
+
+        vehicleViewModel.vehicleListState.observe(viewLifecycleOwner) {
+            it.onSuccess { list ->
+                vehicleTotal = list.sumOf { v -> v.total_this_month }
+                updateTotal()
+            }
+        }
+    }
+    private fun updateTotal() {
+        val total = dailyTotal + vehicleTotal
+        binding.tvTotalTracked.text = "₹${total.toInt()}"
+        val income = currentProfile?.income ?: 0.0
+        val saved = (income - total).coerceAtLeast(0.0)
+
+        binding.tvSaved.text = "₹${saved.toInt()}"
+    }
 
     //CLICK HANDLERS
     private fun setupClicks() {
-
         binding.ivProfileImage.setOnClickListener { openGallery() }
         binding.tvAvatar.setOnClickListener { openGallery() }
-
-        // Edit Profile click
         binding.rowEditProfile.setOnClickListener {
             openUpdateProfileDialog()
+        }
+        binding.rowIncome.setOnClickListener {
+            openIncomeDialog()
+        }
+        binding.rowPrivacy.setOnClickListener {
+            openPrivacyDialog()
+        }
+        binding.btnAddVehicle.setOnClickListener {
+            openAddVehicleDialog()
         }
         binding.rowLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -158,9 +202,6 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), Login::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-        }
-        binding.btnAddVehicle.setOnClickListener {
-            openAddVehicleDialog()
         }
     }
     // OPEN GALLERY
@@ -217,10 +258,6 @@ class ProfileFragment : Fragment() {
     private fun formatDate(timestamp: Long): String {
         val sdf = java.text.SimpleDateFormat("MMM yyyy", java.util.Locale.getDefault())
         return sdf.format(java.util.Date(timestamp))
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
     private fun setupVehicleViewModel() {
         val repo = VehicleRepository()
@@ -391,4 +428,96 @@ class ProfileFragment : Fragment() {
         }
 
     }
+    private fun openIncomeDialog() {
+
+        val dialog = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.dialog_add_income, null)
+
+        dialog.setContentView(view)
+        dialog.show()
+
+        val etIncome = view.findViewById<EditText>(R.id.etIncome)
+        val btnSave = view.findViewById<TextView>(R.id.btnSaveIncome)
+        val btnClose = view.findViewById<View>(R.id.btnClose)
+        val tvTitle = view.findViewById<TextView>(R.id.tvIncomeTitle)
+        val tvError = view.findViewById<TextView>(R.id.tvIncomeError)
+
+        val chip25k = view.findViewById<TextView>(R.id.chip25k)
+        val chip50k = view.findViewById<TextView>(R.id.chip50k)
+        val chip75k = view.findViewById<TextView>(R.id.chip75k)
+        val chip1L = view.findViewById<TextView>(R.id.chip1L)
+        val existingIncome = currentProfile?.income
+
+        if (existingIncome != null) {
+            tvTitle.text = "Edit income"
+            etIncome.setText(existingIncome.toString())
+        } else {
+            tvTitle.text = "Set your income"
+        }
+        chip25k.setOnClickListener { etIncome.setText("25000") }
+        chip50k.setOnClickListener { etIncome.setText("50000") }
+        chip75k.setOnClickListener { etIncome.setText("75000") }
+        chip1L.setOnClickListener { etIncome.setText("100000") }
+
+        btnClose.setOnClickListener { dialog.dismiss() }
+        btnSave.setOnClickListener {
+
+            val incomeText = etIncome.text.toString().trim()
+
+            if (incomeText.isEmpty()) {
+                tvError.text = "Enter income"
+                tvError.visibility = View.VISIBLE
+                return@setOnClickListener
+            }
+
+            val income = incomeText.toDouble()
+
+            val updatedProfile = currentProfile?.copy(
+                income = income
+            ) ?: return@setOnClickListener
+
+            viewModel.updateProfile(updatedProfile)
+
+            dialog.dismiss()
+        }
+    }
+    private fun calculateMonths(createdAt: Long): Int {
+
+        val start = java.util.Calendar.getInstance().apply {
+            timeInMillis = createdAt
+        }
+
+        val now = java.util.Calendar.getInstance()
+
+        val yearDiff = now.get(java.util.Calendar.YEAR) - start.get(java.util.Calendar.YEAR)
+        val monthDiff = now.get(java.util.Calendar.MONTH) - start.get(java.util.Calendar.MONTH)
+
+        val totalMonths = yearDiff * 12 + monthDiff
+
+        return totalMonths.coerceAtLeast(1)
+    }
+    private fun openPrivacyDialog() {
+
+        val dialog = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.dialog_privacy_policy, null)
+
+        dialog.setContentView(view)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        val btnClose = view.findViewById<View>(R.id.btnClose)
+        val btnGotIt = view.findViewById<TextView>(R.id.btnGotIt)
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnGotIt.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

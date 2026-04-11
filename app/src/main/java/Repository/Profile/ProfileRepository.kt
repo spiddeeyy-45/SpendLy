@@ -41,7 +41,8 @@ class ProfileRepository {
                     mapOf(
                         "name" to profile.name,
                         "location" to profile.location,
-                        "profileImage" to profile.profileImage
+                        "profileImage" to profile.profileImage,
+                        "income" to profile.income
                     )
                 )
                 .await()

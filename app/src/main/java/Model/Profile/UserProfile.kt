@@ -8,5 +8,6 @@ data class UserProfile(
     val location: String = "",
     val profileImage: String = "",
     val isPremium: Boolean = false,
+    val income: Double? = null,
     val createdAt: Long = 0L
 )

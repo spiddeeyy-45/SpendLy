@@ -158,7 +158,7 @@ class AddFragment : Fragment() {
                     type = type,
                     amount = amount,
                     note = note,
-                    date = selectedDate
+                    selectedDate = selectedDate
                 )
 
                 viewModel.addExpense(request)

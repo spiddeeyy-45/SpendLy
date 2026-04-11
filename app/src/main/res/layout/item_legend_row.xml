@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dp">
+
+    <!-- Color dot -->
+    <View
+        android:id="@+id/legendDot"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_legend_dot"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- Category name -->
+    <TextView
+        android:id="@+id/legendLabel"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Trips"
+        android:textColor="#9BA3C4"
+        android:textSize="12sp"/>
+
+    <!-- Percentage -->
+    <TextView
+        android:id="@+id/legendPct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="26%"
+        android:layout_marginRight="40dp"
+        android:textColor="#EEF0FF"
+        android:textSize="12sp"
+        android:textStyle="bold"/>
+
+</LinearLayout>

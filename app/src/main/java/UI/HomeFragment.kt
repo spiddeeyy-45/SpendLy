@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +14,6 @@ import com.example.spendly.R
 import com.example.spendly.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import viewModel.Add.ExpenseViewModel
 import viewModel.Add.ExpenseViewModelFact
 import viewModel.Profile.ProfileViewModel
@@ -26,8 +24,11 @@ import Repository.Profile.ProfileRepository
 import Repository.Vehicle.VehicleRepository
 import Util.Home.CategoryAdapter
 import Util.Home.CategoryUIModel
+import Util.Home.DonutChartView
 import Util.Home.TransactionAdapter
 import Util.Home.TransactionUIModel
+import android.graphics.Color
+import android.widget.TextView
 import viewModel.Profile.ProfileViewModelFact
 
 class HomeFragment : Fragment() {
@@ -89,7 +90,6 @@ class HomeFragment : Fragment() {
             ProfileViewModelFact(profileRepo)
         )[ProfileViewModel::class.java]
     }
-
     private fun setupRecycler() {
         categoryAdapter = CategoryAdapter()
         transactionAdapter = TransactionAdapter()
@@ -104,7 +104,6 @@ class HomeFragment : Fragment() {
     }
 
     // ---------------- PROFILE ----------------
-
     private fun observeProfile() {
         profileViewModel.profileState.observe(viewLifecycleOwner) { result ->
             result.onSuccess { profile ->
@@ -120,9 +119,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
     // ---------------- TOTAL ----------------
-
     private fun observeTotal() {
 
         expenseViewModel.statsState.observe(viewLifecycleOwner) {
@@ -139,16 +136,13 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
     private fun updateTotal() {
         val total = dailyTotal + vehicleTotal
-
         binding.totalLayout.tvTotalAmount
             .text = "₹${total.toInt()}"
     }
 
     // ---------------- CATEGORY ----------------
-
     private fun observeCategory() {
 
         expenseViewModel.chartState.observe(viewLifecycleOwner) { result ->
@@ -173,30 +167,23 @@ class HomeFragment : Fragment() {
                     }.sortedByDescending { it.amount }
 
                     categoryAdapter.submitList(list)
+                    setupDonutChart(list)
                 }
             }
         }
     }
-
     // ---------------- RECENT (MERGED) ----------------
-
     private fun loadRecent() {
-
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-
         FirebaseFirestore.getInstance()
             .collection("Users")
             .document(uid)
             .collection("Expenses")
             .get()
             .addOnSuccessListener { dailySnap ->
-
                 val dailyList = dailySnap.toObjects(Expense::class.java)
-
                 loadVehicleExpenses { vehicleList ->
-
                     val finalList = mergeTransactions(dailyList, vehicleList)
-
                     transactionAdapter.submitList(finalList.take(10))
                 }
             }
@@ -217,7 +204,6 @@ class HomeFragment : Fragment() {
     }
     private fun getGreeting(): String {
         val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
-
         return when (hour) {
             in 0..11 -> "Good morning 👋"
             in 12..16 -> "Good afternoon ☀️"
@@ -237,7 +223,8 @@ class HomeFragment : Fragment() {
                 title = it.note.ifEmpty { it.type },
                 type = it.type,
                 amount = it.amount,
-                date = it.date
+                selectedDate = it.selectedDate,
+                createdAt = it.createdAt?:it.selectedDate
             )
         }
 
@@ -247,12 +234,13 @@ class HomeFragment : Fragment() {
                 title = it.note.ifEmpty { it.type },
                 type = it.type,
                 amount = it.amount,
-                date = it.date
+                selectedDate = it.selectedDate,
+                createdAt = it.createdAt?:it.selectedDate
             )
         }
 
         return (dailyUI + vehicleUI)
-            .sortedByDescending { it.date }
+            .sortedByDescending { it.createdAt }
     }
     private fun loadVehicleCategory(onResult: (Map<String, Double>) -> Unit) {
 
@@ -276,5 +264,46 @@ class HomeFragment : Fragment() {
 
                 onResult(map)
             }
+    }
+    private fun setupDonutChart(data: List<CategoryUIModel>) {
+
+        val total = data.sumOf { it.amount }
+        val colors = listOf(
+            "#34D399", "#60A5FA", "#FBBF24",
+            "#F472B6", "#A78BFA", "#22D3EE", "#94A3B8"
+        )
+
+        val slices = data.mapIndexed { index, item ->
+            DonutChartView.DonutSlice(
+                label = item.name,
+                value = item.amount.toFloat(),
+                color = colors[index % colors.size]
+            )
+        }
+        binding.donutChart.setData(slices)
+        binding.tvDonutTotal.text = "₹${total.toInt()}"
+        setupLegend(data, colors)
+    }
+    private fun setupLegend(data: List<CategoryUIModel>, colors: List<String>) {
+        binding.llLegend.removeAllViews()
+
+        val total = data.sumOf { it.amount }
+
+        data.forEachIndexed { index, item ->
+
+            val percent = ((item.amount / total) * 100).toInt()
+
+            val view = layoutInflater.inflate(R.layout.item_legend_row, binding.llLegend, false)
+
+            val dot = view.findViewById<View>(R.id.legendDot)
+            val name = view.findViewById<TextView>(R.id.legendLabel)
+            val value = view.findViewById<TextView>(R.id.legendPct)
+
+            dot.setBackgroundColor(Color.parseColor(colors[index % colors.size]))
+            name.text = item.name
+            value.text = "₹${item.amount.toInt()} ($percent%)"
+
+            binding.llLegend.addView(view)
+        }
     }
 }

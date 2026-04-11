@@ -10,6 +10,7 @@ data class Expense(
     val vehicle_id: String="",
     val type: String = "",
     val note:String = "",
-    val date:Long = 0L,
-    val amount: Double =0.0
+    val selectedDate:Long = 0L,
+    val amount: Double =0.0,
+    val createdAt: Long? = null
 )

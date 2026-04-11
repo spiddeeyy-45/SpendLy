@@ -410,7 +410,7 @@ class VehicleFragment : Fragment() {
                     vehicle_id = selectedVehicleId!!,
                     type = type,
                     amount = amount,
-                    date = selectedDate,
+                    selectedDate = selectedDate,
                     note = note
                 )
 

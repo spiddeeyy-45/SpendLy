@@ -19,7 +19,8 @@ class ExpenseRepo {
                 "type" to request.type,
                 "amount" to request.amount,
                 "note" to request.note,
-                "createdAt" to request.date
+                "selectedDate" to request.selectedDate,
+                "createdAt" to System.currentTimeMillis()
             )
             firestore.collection("Users")
                 .document(uid)

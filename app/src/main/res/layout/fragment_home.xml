@@ -36,7 +36,14 @@
         android:layout_gravity="bottom|start"
         android:layout_marginBottom="100dp"
         android:layout_marginStart="20dp"/>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <!-- ===== HEADER ===== -->
+    <include
+        android:id="@+id/headerLayout"
+        layout="@layout/layout_home_header" />
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -48,10 +55,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ===== HEADER ===== -->
-        <include
-            android:id="@+id/headerLayout"
-            layout="@layout/layout_home_header" />
+
 
         <!-- ===== TOTAL CARD ===== -->
         <include
@@ -99,49 +103,84 @@
             android:overScrollMode="never"
             tools:listitem="@layout/item_category"/>
 
-        <!-- ===== SPEND BREAKDOWN ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_glass_card">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spend Breakdown"
+            android:textColor="#EEF0FF"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="18dp"/>
+
+        <!-- Donut + Legend row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_surface2_round"
-            android:padding="20dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Spend Breakdown"
-                android:textColor="#F0F2F7"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="14dp" />
+            <!-- Custom Donut View -->
+            <FrameLayout
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginEnd="20dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <!-- Pie Chart -->
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pieChart"
+                <Util.Home.DonutChartView
+                    android:id="@+id/donutChart"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
-                    android:layout_marginEnd="20dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="20dp"/>
 
-
-                <!-- Legend -->
+                <!-- Center label -->
                 <LinearLayout
-                    android:id="@+id/llLegend"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" />
-            </LinearLayout>
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tvDonutTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#EEF0FF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="0.0k"
+                        xmlns:tools="http://schemas.android.com/tools"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="total"
+                        android:textColor="#60B4B9DC"
+                        android:textSize="9sp"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+            <LinearLayout
+                android:id="@+id/llLegend"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical"/>
+
         </LinearLayout>
+    </LinearLayout>
 
         <!-- ===== AI INSIGHT ===== -->
         <LinearLayout
@@ -208,7 +247,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTransactions"
             android:layout_width="match_parent"
-            android:layout_height="420dp"
+            android:layout_height="210dp"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:overScrollMode="never"
@@ -217,6 +256,7 @@
     </LinearLayout>
 
 </ScrollView>
+    </LinearLayout>
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabUploadPdf"
         android:layout_width="62dp"

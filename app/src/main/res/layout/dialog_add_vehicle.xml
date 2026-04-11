@@ -7,12 +7,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_bottom_sheet">
 
-        <!-- Glass overlay -->
-        <eightbitlab.com.blurview.BlurView
-            android:id="@+id/blurDialog"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -22,8 +16,6 @@
                 android:paddingEnd="20dp"
                 android:paddingTop="14dp"
                 android:paddingBottom="32dp">
-
-                <!-- Drag handle -->
                 <View
                     android:layout_width="40dp"
                     android:layout_height="4dp"
@@ -31,7 +23,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="20dp"/>
 
-                <!-- Shimmer line -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -97,7 +88,6 @@
 
                 </LinearLayout>
 
-                <!-- ══ VEHICLE TYPE SELECTOR ══ -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -195,6 +185,7 @@
 
                     <EditText
                         android:id="@+id/etCompany"
+                        android:textColorHint="#30B4B9DC"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
@@ -231,6 +222,7 @@
                     <EditText
                         android:id="@+id/etModel"
                         android:layout_width="match_parent"
+                        android:textColorHint="#30B4B9DC"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
                         android:hint="e.g. Splendor, Activa, Swift"
@@ -270,6 +262,7 @@
                         android:background="@android:color/transparent"
                         android:hint="MH 02 AB 1234"
                         android:textColor="#EEF0FF"
+                        android:textColorHint="#30B4B9DC"
                         android:textSize="13sp"
                         android:inputType="textCapCharacters"
                         android:singleLine="true"
@@ -307,6 +300,7 @@
                         android:textColor="#EEF0FF"
                         android:textSize="13sp"
                         android:inputType="number"
+                        android:textColorHint="#30B4B9DC"
                         android:maxLength="4"
                         android:singleLine="true"
                         android:imeOptions="actionDone"/>
@@ -340,8 +334,6 @@
                     android:visibility="gone"/>
 
             </LinearLayout>
-
-        </eightbitlab.com.blurview.BlurView>
 
     </FrameLayout>
 

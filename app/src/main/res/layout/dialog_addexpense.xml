@@ -19,7 +19,6 @@
                 android:paddingTop="14dp"
                 android:paddingBottom="32dp">
 
-                <!-- Drag handle -->
                 <View
                     android:layout_width="40dp"
                     android:layout_height="4dp"
@@ -27,14 +26,12 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="20dp"/>
 
-                <!-- Shimmer line -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@drawable/bg_shimmer_line"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Title row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,7 +39,6 @@
                     android:gravity="center_vertical"
                     android:layout_marginBottom="20dp">
 
-                    <!-- Icon + Title -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -50,7 +46,6 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical">
 
-                        <!-- Category icon badge -->
                         <FrameLayout
                             android:id="@+id/ivCategoryIcon"
                             android:layout_width="42dp"
@@ -72,7 +67,6 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <!-- Category label — set dynamically: binding.tvCategoryName.text = category -->
                             <TextView
                                 android:id="@+id/tvCategoryName"
                                 android:layout_width="wrap_content"
@@ -122,7 +116,6 @@
 
                 </LinearLayout>
 
-                <!-- ══ AMOUNT INPUT — large centered ══ -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -206,8 +199,6 @@
                         android:layout_height="18dp"
                         android:src="@drawable/ic_calendar"
                         android:layout_marginEnd="10dp"/>
-
-                    <!-- Set dynamically: binding.tvSelectedDate.text = formatted date -->
                     <TextView
                         android:id="@+id/tvSelectedDate"
                         android:layout_width="0dp"

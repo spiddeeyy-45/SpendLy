@@ -34,7 +34,7 @@ class TransactionAdapter :
 
             txAmount.text = "-₹${item.amount.toInt()}"
 
-            txDate.text = "${formatDate(item.date)} · ${item.type}"
+            txDate.text = "${formatDate(item.selectedDate)} · ${item.type}"
 
             txIcon.text = getIcon(item.type)
         }

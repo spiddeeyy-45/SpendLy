@@ -52,8 +52,6 @@
             android:paddingEnd="16dp"
             android:paddingTop="52dp"
             android:paddingBottom="110dp">
-
-            <!-- HEADER -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,10 +73,6 @@
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@android:color/transparent">
 
-                <eightbitlab.com.blurview.BlurView
-                    android:id="@+id/blurProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -131,7 +125,6 @@
                             android:layout_marginBottom="16dp"
                             tools:text="Member since 2025 · Mumbai"/>
 
-                        <!-- Badges row -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -176,13 +169,8 @@
 
                     </LinearLayout>
 
-                </eightbitlab.com.blurview.BlurView>
-
             </androidx.cardview.widget.CardView>
 
-            <!-- ══════════════════════════════ -->
-            <!-- STATS 3-COLUMN ROW -->
-            <!-- ══════════════════════════════ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -302,10 +290,6 @@
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@android:color/transparent">
 
-                <eightbitlab.com.blurview.BlurView
-                    android:id="@+id/blurVehicleSection"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -393,11 +377,7 @@
                                 android:textSize="20sp"/>
 
                         </LinearLayout>
-
                     </LinearLayout>
-
-                </eightbitlab.com.blurview.BlurView>
-
             </androidx.cardview.widget.CardView>
 
             <!-- ══════════════════════════════ -->
@@ -419,11 +399,6 @@
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@android:color/transparent">
-
-                <eightbitlab.com.blurview.BlurView
-                    android:id="@+id/blurSettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -486,7 +461,7 @@
 
                         <!-- Notifications -->
                         <LinearLayout
-                            android:id="@+id/rowNotifications"
+                            android:id="@+id/rowIncome"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -500,19 +475,18 @@
                                 android:layout_width="38dp"
                                 android:layout_height="38dp"
                                 android:background="@drawable/bg_setting_default">
-                                <TextView
+
+                                <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:text="🔔"
-                                    android:textSize="17sp"/>
+                                    android:src="@drawable/ic_income"/>
                             </FrameLayout>
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:text="Notifications"
+                                android:text="Add Income"
                                 android:textColor="#EEF0FF"
                                 android:textSize="14sp"
                                 android:layout_marginStart="14dp"/>
@@ -547,12 +521,10 @@
                                 android:layout_width="38dp"
                                 android:layout_height="38dp"
                                 android:background="@drawable/bg_setting_default">
-                                <TextView
+                                <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:text="🔒"
-                                    android:textSize="17sp"/>
+                                    android:src="@drawable/ic_policy"/>
                             </FrameLayout>
 
                             <TextView
@@ -594,12 +566,10 @@
                                 android:layout_width="38dp"
                                 android:layout_height="38dp"
                                 android:background="@drawable/bg_setting_logout">
-                                <TextView
+                                <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:text="🚪"
-                                    android:textSize="17sp"/>
+                                    android:src="@drawable/ic_logout"/>
                             </FrameLayout>
 
                             <TextView
@@ -615,8 +585,6 @@
                         </LinearLayout>
 
                     </LinearLayout>
-
-                </eightbitlab.com.blurview.BlurView>
 
             </androidx.cardview.widget.CardView>
 

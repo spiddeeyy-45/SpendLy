@@ -4,5 +4,6 @@ data class Expense(
     val type: String = "",
     val amount: Double = 0.0,
     val note: String = "",
-    val date: Long = 0L
+    val selectedDate: Long = 0L,
+    val createdAt: Long? = null
 )

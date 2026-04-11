@@ -101,11 +101,6 @@
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@android:color/transparent">
 
-                <eightbitlab.com.blurview.BlurView
-                    android:id="@+id/blurLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -253,8 +248,6 @@
                             tools:visibility="visible"/>
 
                     </LinearLayout>
-
-                </eightbitlab.com.blurview.BlurView>
 
             </androidx.cardview.widget.CardView>
 

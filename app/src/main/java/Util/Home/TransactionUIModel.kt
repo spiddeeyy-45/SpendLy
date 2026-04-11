@@ -5,5 +5,6 @@ data class TransactionUIModel(
     val title: String,
     val type: String,
     val amount: Double,
-    val date: Long
+    val selectedDate: Long,
+    val createdAt: Long
 )
